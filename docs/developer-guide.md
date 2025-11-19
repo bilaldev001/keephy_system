@@ -14,7 +14,7 @@ title: Developer Guide
 | `frontend/marketing/` | Marketing site + shared login/launcher for `www.keephy.com`. |
 | `frontend/packages/ui-core` | Shared shadcn/Tailwind design system for theming, layout, reusable components, auth helpers. |
 | `ops/tooling/` | Operational scripts (e.g. `seed-demo-data.mjs`). Run with `node ops/tooling/<script>.mjs`. |
-| ~~`backend/api-postgres/`~~ | ~~Legacy monolith~~ **DECOMMISSIONED** - All modules migrated to microservices. |
+| `backend/api-postgres/` | Legacy monolith (only touched when retiring remaining modules). No new features here. |
 
 ## 2. Backend Feature Lifecycle
 
@@ -126,7 +126,7 @@ When adding a new service:
 
 ## 8. Legacy Monolith Retirement
 
-- ~~Remove module from `backend/api-postgres/src/services/index.js`.~~ **api-postgres has been decommissioned.**
+- Remove module from `backend/api-postgres/src/services/index.js`.
 - Delete the service folder (e.g. `src/services/billing`).
 - Ensure the API Gateway route maps to the new Nest service before removal.
 - Execute opt-in data migration scripts if legacy data is required.
