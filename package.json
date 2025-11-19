@@ -1,7 +1,7 @@
 {
-  "name": "hrms-platform",
+  "name": "keephy-platform",
   "version": "1.0.0",
-  "description": "HRMS Platform - Complete system with microservices and frontend applications",
+  "description": "Keephy Platform - Complete system with microservices and frontend applications",
   "private": true,
   "scripts": {
     "test": "node scripts/test-system.mjs",

@@ -1,6 +1,6 @@
-# Keephy HRMS Platform - Setup Guide
+# Keephy Platform - Setup Guide
 
-This guide will help you set up the complete Keephy HRMS Platform development environment.
+This guide will help you set up the complete Keephy Platform development environment.
 
 ## 📋 Prerequisites
 
@@ -15,8 +15,8 @@ This guide will help you set up the complete Keephy HRMS Platform development en
 ### Step 1: Clone the Orchestrator Repository
 
 ```bash
-git clone <orchestrator-repo-url> hrms-platform
-cd hrms-platform
+git clone <orchestrator-repo-url> keephy-platform
+cd keephy-platform
 ```
 
 ### Step 2: Clone Frontend and Backend Repositories

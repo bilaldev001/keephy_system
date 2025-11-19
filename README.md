@@ -1,6 +1,6 @@
-# Keephy HRMS Platform - Monorepo Orchestrator
+# Keephy Platform - Monorepo Orchestrator
 
-This is the root orchestrator repository for the Keephy HRMS Platform. It manages the coordination between the frontend and backend systems.
+This is the root orchestrator repository for the Keephy Platform. It manages the coordination between the frontend and backend systems.
 
 ## 📁 Repository Structure
 
