@@ -30,6 +30,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+.logs/
+**/.logs/
+
+# PM2
+.pm2/
+.pids/
+**/.pids/
 
 # TypeScript
 *.tsbuildinfo
@@ -62,3 +69,14 @@ coverage/
 *.pem
 *.key
 
+# Playwright
+.playwright-mcp/
+**/.playwright-mcp/
+
+# Cursor
+.cursor/
+
+# Submodules (frontend and backend are separate repos)
+# Note: If using git submodules, uncomment:
+# frontend/
+# backend/
