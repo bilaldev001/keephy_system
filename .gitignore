@@ -76,7 +76,9 @@ coverage/
 # Cursor
 .cursor/
 
-# Submodules (frontend and backend are separate repos)
-# Note: If using git submodules, uncomment:
-# frontend/
-# backend/
+# Frontend and Backend are separate repositories
+# Ignore their contents but keep the directories
+frontend/*
+!frontend/.git
+backend/*
+!backend/.git
