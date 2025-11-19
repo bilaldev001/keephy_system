@@ -15,6 +15,8 @@ This repository contains:
 - **Frontend**: [keephy_frontend_system](https://github.com/bilaldev001/keephy_frontend_system) - All frontend applications and packages
 - **Backend**: [keephy_backend_system](https://github.com/bilaldev001/keephy_backend_system) - All backend microservices
 
+> **Note**: Frontend and backend are separate git repositories. Clone them into the `frontend/` and `backend/` directories respectively. See [SETUP.md](./SETUP.md) for detailed setup instructions.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -185,10 +187,16 @@ npm run test:critical
 
 1. **Clone all repositories**:
    ```bash
-   git clone <this-repo>
-   git clone <frontend-repo> frontend
-   git clone <backend-repo> backend
+   # Clone orchestrator repo
+   git clone <orchestrator-repo-url> hrms-platform
+   cd hrms-platform
+   
+   # Clone frontend and backend as separate repos
+   git clone git@github.com:bilaldev001/keephy_frontend_system.git frontend
+   git clone git@github.com:bilaldev001/keephy_backend_system.git backend
    ```
+   
+   See [SETUP.md](./SETUP.md) for complete setup instructions.
 
 2. **Install dependencies**:
    ```bash
