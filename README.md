@@ -188,8 +188,8 @@ npm run test:critical
 1. **Clone all repositories**:
    ```bash
    # Clone orchestrator repo
-   git clone <orchestrator-repo-url> hrms-platform
-   cd hrms-platform
+   git clone <orchestrator-repo-url> keephy-platform
+   cd keephy-platform
    
    # Clone frontend and backend as separate repos
    git clone git@github.com:bilaldev001/keephy_frontend_system.git frontend

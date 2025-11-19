@@ -209,7 +209,7 @@ curl http://localhost:4002/health  # Access Service
 ## 📁 Repository Structure
 
 ```
-hrms-platform/
+keephy-platform/
 ├── backend/              # Backend microservices (separate repo)
 │   ├── services/        # All microservices
 │   ├── packages/        # Shared packages
