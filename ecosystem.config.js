@@ -522,7 +522,7 @@ module.exports = {
     {
       name: 'frontend-marketing',
       script: 'npm',
-      args: 'run dev',
+      args: 'run dev -- -p 4200',
       cwd: './frontend/marketing',
       instances: 1,
       autorestart: true,
