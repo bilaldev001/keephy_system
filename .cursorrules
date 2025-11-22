@@ -1,0 +1,99 @@
+# Keephy Platform - AI Agent Rules
+
+**⚠️ CRITICAL: This file is automatically loaded by Cursor AI. All AI agents MUST follow these rules.**
+
+## Primary Standards Document
+**ALWAYS READ FIRST**: `.cursor/rules/CODING_STANDARDS.md`
+
+Before writing ANY code, you MUST:
+1. Read `.cursor/rules/CODING_STANDARDS.md` completely
+2. Check `.cursor/rules/ARCHITECTURE.md` for architecture patterns
+3. Follow all standards and conventions defined in these files
+
+## Quick Reference - Critical Rules
+
+### Code Quality
+- ✅ NO syntax errors - Code must compile/run without errors
+- ✅ NO mock data in production code - Use real APIs
+- ✅ NO hardcoded values - Use configuration/environment variables
+- ✅ NO TODO comments - Implement or create proper ticket
+- ✅ NO console.log in production - Use structured logging
+- ✅ NO commented-out code - Remove it
+- ✅ NO minimal versions - Always write enhanced, production-ready versions
+- ✅ NO .md files - Do NOT create documentation files unless explicitly asked
+
+### Best Practices & Principles
+- ✅ Always use ACID, SOLID, DRY and other best practices
+- ✅ Follow industry best practices and design patterns
+- ✅ Write production-ready code with full features
+- ✅ Always enhanced implementations - Never minimal versions
+
+### AI Agent Expertise Requirements
+- ✅ **Backend/API**: Act as 20 years experience world best lead engineer/expert
+- ✅ **Frontend UI/UX**: Act as 20 years experience world best lead frontend developer/expert
+- ✅ **Attention to details**: Pay very close attention to UI/UX details
+- ✅ **Code Review**: Always review code as 20 years experience technical team lead
+
+### Platform Requirements
+- ✅ Use `@keephy/i18n` for ALL user-facing text (English, Arabic, Spanish)
+- ✅ All frontend pages MUST support SSR (Server-Side Rendering)
+- ✅ Use `@keephy/ui-core` for all UI components (NOT shadcn directly)
+- ✅ Customize UI components in `packages/ui-core` as per business logic
+- ✅ Use Supabase as database
+- ✅ Use SendGrid for email service
+- ✅ Use original Webflow classes, not Tailwind (where applicable)
+- ✅ Use CDN-based assets for CSS/resources
+
+### Architecture
+- ✅ Follow ACID principles for database transactions
+- ✅ Follow SOLID principles
+- ✅ Follow Clean Architecture patterns
+- ✅ One service = One domain
+- ✅ Use NestJS for backend services
+- ✅ Use Next.js with SSR for frontend
+- ✅ Use TypeORM for database access
+
+### File Organization
+- ✅ Always keep files in proper place - Follow directory structure
+- ✅ Components in atomic design folders (atoms, molecules, organisms)
+- ✅ Services in feature-specific modules
+- ✅ No orphaned files - Every file must have clear purpose
+
+### Code Style
+- ✅ 2 spaces indentation
+- ✅ Single quotes for strings
+- ✅ Always use semicolons
+- ✅ Maximum 100 characters per line
+- ✅ kebab-case for files, PascalCase for components/classes
+- ✅ camelCase for variables/functions
+
+### Before Committing Code
+- [ ] Code compiles without errors
+- [ ] All tests pass
+- [ ] Linting passes
+- [ ] No hardcoded values
+- [ ] No mock data
+- [ ] i18n used for all text
+- [ ] SSR supported (frontend)
+- [ ] Error handling implemented
+- [ ] Input validation added
+- [ ] Logging added
+- [ ] ACID, SOLID, DRY principles followed
+- [ ] Enhanced version (not minimal) implemented
+- [ ] Code reviewed as 20 years experience team lead
+- [ ] Files in proper locations
+- [ ] Using @keephy/ui-core (not shadcn directly)
+- [ ] NO .md files created (unless asked)
+
+## File Locations
+- **Coding Standards**: `.cursor/rules/CODING_STANDARDS.md`
+- **Architecture Guide**: `.cursor/rules/ARCHITECTURE.md`
+- **This File**: `.cursorrules` (auto-loaded by Cursor)
+
+## Enforcement
+- Pre-commit hooks check code quality
+- CI/CD pipeline runs automated checks
+- Code reviews verify standards compliance
+
+**Remember**: When in doubt, check the full standards document first!
+
