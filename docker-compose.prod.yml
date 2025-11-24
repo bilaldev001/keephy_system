@@ -195,6 +195,7 @@ services:
       dockerfile: Dockerfile.frontend.prod
       args:
         NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL}
+        NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL}
     container_name: keephy-frontend-marketing-prod
     command: npm run start
     working_dir: /app/frontend/marketing
@@ -203,8 +204,41 @@ services:
       PORT: 4200
       NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL}
       NEXT_PUBLIC_ROOT_DOMAIN: ${NEXT_PUBLIC_ROOT_DOMAIN}
+      NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL}
     depends_on:
       - api-gateway
+    networks:
+      - keephy-prod-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  frontend-console:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend.prod
+      args:
+        NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL}
+        NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL}
+        NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL}
+    container_name: keephy-frontend-console-prod
+    command: npm run start
+    working_dir: /app/frontend/console
+    environment:
+      NODE_ENV: production
+      PORT: 4201
+      NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL}
+      NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL}
+      NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL}
+    depends_on:
+      - api-gateway
+      - frontend-marketing
     networks:
       - keephy-prod-network
     restart: always

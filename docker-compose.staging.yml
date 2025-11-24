@@ -156,6 +156,7 @@ services:
       dockerfile: Dockerfile.frontend.prod
       args:
         NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:4100}
+        NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL:-http://localhost:4301}
     container_name: keephy-frontend-marketing-staging
     command: npm run start
     working_dir: /app/frontend/marketing
@@ -164,10 +165,37 @@ services:
       PORT: 4200
       NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:4100}
       NEXT_PUBLIC_ROOT_DOMAIN: ${NEXT_PUBLIC_ROOT_DOMAIN:-staging.keephy.com}
+      NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL:-http://localhost:4301}
     ports:
       - "4300:4200"
     depends_on:
       - api-gateway
+    networks:
+      - keephy-staging-network
+    restart: unless-stopped
+
+  frontend-console:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend.prod
+      args:
+        NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:4100}
+        NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-http://localhost:4300}
+        NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL:-http://localhost:4301}
+    container_name: keephy-frontend-console-staging
+    command: npm run start
+    working_dir: /app/frontend/console
+    environment:
+      NODE_ENV: staging
+      PORT: 4201
+      NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:4100}
+      NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-http://localhost:4300}
+      NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL:-http://localhost:4301}
+    ports:
+      - "4301:4201"
+    depends_on:
+      - api-gateway
+      - frontend-marketing
     networks:
       - keephy-staging-network
     restart: unless-stopped
