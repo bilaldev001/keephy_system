@@ -1,0 +1,32 @@
+# Backend Services Dockerfile
+# Base image for all NestJS backend services
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apk add --no-cache \
+    libc6-compat \
+    python3 \
+    make \
+    g++
+
+# Copy root package files (if any)
+COPY package*.json ./
+
+# Copy backend package files
+COPY backend/package*.json ./backend/
+
+# Install root dependencies
+RUN cd backend && npm install --legacy-peer-deps || true
+
+# Copy backend source (will be overridden by volume in dev)
+COPY backend/ ./backend/
+
+# Set working directory for service commands
+WORKDIR /app/backend
+
+# Default command (will be overridden in docker-compose)
+CMD ["npm", "run", "start:dev"]
+

@@ -1,248 +1,185 @@
-# Keephy Platform - Monorepo Orchestrator
+# Keephy Platform
 
-This is the root orchestrator repository for the Keephy Platform. It manages the coordination between the frontend and backend systems.
+A comprehensive HRMS and business management platform built with microservices architecture.
 
-## 📁 Repository Structure
+## Quick Start
 
-This repository contains:
-- **Orchestration scripts** (`scripts/`) - System startup, testing, and management
-- **PM2 configuration** (`ecosystem.config.js`) - Process management for all services
-- **Documentation** (`docs/`) - System documentation and guides
-- **Operations tools** (`ops/`) - Operational scripts and utilities
+### For Developers New to Docker
 
-## 🔗 Related Repositories
+1. **Install Docker Desktop:**
+   - Download from: https://www.docker.com/products/docker-desktop
+   - Install and start Docker Desktop
 
-- **Frontend**: [keephy_frontend_system](https://github.com/bilaldev001/keephy_frontend_system) - All frontend applications and packages
-- **Backend**: [keephy_backend_system](https://github.com/bilaldev001/keephy_backend_system) - All backend microservices
+2. **Run the startup script:**
+   ```bash
+   chmod +x start.sh
+   ./start.sh
+   ```
+   Select option 1 to start all services.
 
-> **Note**: Frontend and backend are separate git repositories. Clone them into the `frontend/` and `backend/` directories respectively. See [SETUP.md](./SETUP.md) for detailed setup instructions.
+3. **Access the applications:**
+   - Marketing Site: http://localhost:4200
+   - API Gateway: http://localhost:4000
+   - FBMS: http://localhost:5005
 
-## 🚀 Quick Start
+**For detailed Docker instructions, see [DOCKER_GUIDE.md](./DOCKER_GUIDE.md)**
 
-### Prerequisites
-
-- Node.js 18+
-- PostgreSQL 14+
-- npm or yarn
-
-### Installation
-
-```bash
-# Install root dependencies
-npm install
-
-# Install backend dependencies
-cd backend && npm install && cd ..
-
-# Install frontend dependencies
-cd frontend && npm install && cd ..
-```
-
-### Starting the System
-
-#### Option 1: Using PM2 (Recommended for Production)
+### For Experienced Developers
 
 ```bash
+# Setup environment files
+cp .env.backend.example .env.backend
+cp .env.frontend.example .env.frontend
+
 # Start all services
-npm run pm2:start
-
-# Start only critical services
-npm run pm2:start:critical
-
-# Start only backend services
-npm run pm2:start:backend
-
-# Start only frontend apps
-npm run pm2:start:frontend
+docker compose up -d
 
 # View logs
-npm run pm2:logs
+docker compose logs -f
 
-# Monitor
-npm run pm2:monit
-
-# Stop all
-npm run pm2:stop:all
+# Check status
+docker compose ps
 ```
 
-#### Option 2: Using Test Script (Development)
+## Project Structure
+
+```
+.
+├── backend/              # Backend microservices
+│   ├── services/        # Individual service implementations
+│   └── libs/            # Shared libraries
+├── frontend/            # Frontend applications
+│   ├── marketing/       # Marketing website
+│   ├── fbms/            # Feedback Management System
+│   └── packages/        # Shared frontend packages
+├── docker-compose.yml   # Docker Compose configuration
+├── start.sh             # Interactive startup script
+├── .env.backend         # Backend environment variables
+└── .env.frontend        # Frontend environment variables
+```
+
+## Services
+
+### Backend Services (31 total)
+
+- **api-gateway** (4000) - API Gateway for routing requests
+- **identity-service** (4001) - Authentication and user management
+- **access-service** (4002) - Authorization and permissions
+- **fbms-service** (4014) - Feedback Management System
+- **hrms-service** (4015) - Human Resource Management
+- And 26 more services...
+
+### Frontend Applications (15 total)
+
+- **marketing** (4200) - Marketing website
+- **fbms** (5005) - Feedback Management System UI
+- **hrms** (4213) - HRMS UI
+- And 12 more applications...
+
+See [DOCKER_GUIDE.md](./DOCKER_GUIDE.md) for complete list of service URLs.
+
+## Documentation
+
+- **[DOCKER_GUIDE.md](./DOCKER_GUIDE.md)** - Complete Docker guide with troubleshooting
+- **[docs/developer-guide.md](./docs/developer-guide.md)** - Developer documentation
+- **[backend/docs/](./backend/docs/)** - Backend service documentation
+
+## Environment Setup
+
+### Backend Environment
+
+Copy and configure `.env.backend`:
+```bash
+cp .env.backend.example .env.backend
+# Edit .env.backend with your configuration
+```
+
+### Frontend Environment
+
+Copy and configure `.env.frontend`:
+```bash
+cp .env.frontend.example .env.frontend
+# Edit .env.frontend with your configuration
+```
+
+## Common Commands
+
+### Using the Startup Script
 
 ```bash
-# Start all services with health checks
-npm test
-
-# Start only critical services
-npm run test:critical
+./start.sh
+# Interactive menu with options:
+# 1. Start all services
+# 2. Start specific services
+# 3. Stop all services
+# 4. Restart all services
+# 5. View logs
+# 6. Check status
+# 7. View URLs
+# 8. Clean up
 ```
 
-#### Option 3: Using Start Script (Simple)
+### Using Docker Compose Directly
 
 ```bash
 # Start all services
-npm start
+docker compose up -d
 
-# Start only critical services
-npm run start:critical
+# Stop all services
+docker compose down
+
+# View logs
+docker compose logs -f
+
+# Restart a service
+docker compose restart api-gateway
+
+# Check status
+docker compose ps
 ```
 
-## 📜 Available Scripts
+## Development
 
-### System Management
-- `npm test` - Start all services with comprehensive testing
-- `npm run test:critical` - Start only critical services
-- `npm start` - Start all services (simple)
-- `npm run start:critical` - Start only critical services
-- `npm run start:simple` - Quick start (skip install & migrations)
+### Running Services Locally (without Docker)
 
-### PM2 Management
-- `npm run pm2:start` - Start all services with PM2
-- `npm run pm2:start:critical` - Start critical services only
-- `npm run pm2:start:backend` - Start all backend services
-- `npm run pm2:start:frontend` - Start all frontend apps
-- `npm run pm2:stop` - Stop all PM2 processes
-- `npm run pm2:restart` - Restart all PM2 processes
-- `npm run pm2:logs` - View all logs
-- `npm run pm2:monit` - Open PM2 monitoring dashboard
-- `npm run pm2:status` - Show PM2 status
+See individual service README files in `backend/services/` and `frontend/` directories.
 
-### Installation & Cleanup
-- `npm run install:all` - Install dependencies for backend and frontend
-- `npm run clean` - Remove all node_modules and build artifacts
-- `npm run clean:pm2` - Clean PM2 processes
+### Adding a New Service
 
-### Utilities
-- `npm run check:ports` - Check if service ports are in use
-- `npm run kill:all` - Kill all running Node processes
+1. Create service in `backend/services/` or `frontend/`
+2. Add service configuration to `docker-compose.yml`
+3. Add environment variables to `.env.backend` or `.env.frontend`
+4. Restart services: `docker compose up -d`
 
-## 🏗️ Architecture
-
-### Backend Services
-
-**Critical Services** (Start First):
-- API Gateway (4000)
-- Identity Service (4001)
-- Access Service (4002)
-
-**Core Services**:
-- Admin Service (4028)
-- Media Service (4003)
-- Contacts Service (4004)
-- Notifications Service (4005)
-- Audit Service (4006)
-
-**Business Services**:
-- HRMS Service (4015)
-- Billing Service (4012)
-- Analytics Service (4021)
-- CRM Service (4018)
-- Payroll Service (4016)
-- And 20+ more services...
-
-### Frontend Applications
-
-**Critical Apps**:
-- Admin (4205)
-- Marketing (4200)
-
-**Other Apps**:
-- Analytics (4206)
-- Billing (4207)
-- HRMS (4213)
-- CRM (4209)
-- And 10+ more apps...
-
-## 📚 Documentation
-
-- [Developer Guide](./docs/developer-guide.md) - Development workflow and guidelines
-- [PM2 Setup Guide](./PM2-SETUP.md) - PM2 process manager setup
-- [Scripts README](./scripts/README.md) - Detailed script documentation
-
-## 🔧 Configuration
-
-### Environment Variables
-
-Each service/app has its own `.env` file. See:
-- `backend/docs/environment-variables.md` for backend configuration
-- Frontend apps use `.env.local` files
-
-### PM2 Configuration
-
-The `ecosystem.config.js` file contains all PM2 process definitions. Modify it to:
-- Change ports
-- Adjust memory limits
-- Add/remove services
-- Configure environment variables
-
-## 🧪 Testing
-
-```bash
-# Run system tests
-npm test
-
-# Test only critical services
-npm run test:critical
-```
-
-## 📝 Development Workflow
-
-1. **Clone all repositories**:
-   ```bash
-   # Clone orchestrator repo
-   git clone <orchestrator-repo-url> keephy-platform
-   cd keephy-platform
-   
-   # Clone frontend and backend as separate repos
-   git clone git@github.com:bilaldev001/keephy_frontend_system.git frontend
-   git clone git@github.com:bilaldev001/keephy_backend_system.git backend
-   ```
-   
-   See [SETUP.md](./SETUP.md) for complete setup instructions.
-
-2. **Install dependencies**:
-   ```bash
-   npm run install:all
-   ```
-
-3. **Start services**:
-   ```bash
-   npm run pm2:start:critical
-   ```
-
-4. **Make changes** in frontend or backend repos
-
-5. **Test changes**:
-   ```bash
-   npm test
-   ```
-
-## 🐛 Troubleshooting
-
-### Port Already in Use
-```bash
-npm run check:ports
-# Kill specific port
-lsof -ti:4000 | xargs kill -9
-```
+## Troubleshooting
 
 ### Services Won't Start
-1. Check PostgreSQL is running
-2. Verify environment variables
-3. Check logs: `npm run pm2:logs`
-4. Review service-specific logs in `.logs/` directory
 
-### Clean Start
-```bash
-npm run clean:pm2
-npm run clean
-npm run install:all
-npm run pm2:start
-```
+1. Check Docker is running: `docker ps`
+2. Check for port conflicts
+3. View logs: `docker compose logs service-name`
+4. See [DOCKER_GUIDE.md](./DOCKER_GUIDE.md) for detailed troubleshooting
 
-## 📄 License
+### Can't Connect to Services
 
-UNLICENSED
+1. Verify services are running: `docker compose ps`
+2. Check service logs: `docker compose logs service-name`
+3. Verify ports are exposed correctly
 
-## 👥 Contributing
+## Contributing
 
-See [Developer Guide](./docs/developer-guide.md) for contribution guidelines.
+1. Create a feature branch
+2. Make your changes
+3. Test with Docker: `docker compose up -d`
+4. Submit a pull request
 
+## License
+
+[Your License Here]
+
+## Support
+
+For issues and questions:
+- Check [DOCKER_GUIDE.md](./DOCKER_GUIDE.md) for Docker-related issues
+- Check [docs/developer-guide.md](./docs/developer-guide.md) for development questions
+- Open an issue on GitHub

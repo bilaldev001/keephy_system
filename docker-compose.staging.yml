@@ -1,0 +1,182 @@
+version: '3.8'
+
+# Staging Environment Configuration
+# Production-like but with debug enabled, test data
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: keephy-postgres-staging
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-${STAGING_DB_PASSWORD}}
+      POSTGRES_DB: ${POSTGRES_DB:-hrmssystem_staging}
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_staging_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - keephy-staging-network
+    restart: unless-stopped
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-api-gateway-staging
+    command: npm run start:prod
+    working_dir: /app/backend/services/api-gateway
+    environment:
+      NODE_ENV: staging
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-${STAGING_DB_PASSWORD}}@postgres:5432/${POSTGRES_DB:-hrmssystem_staging}
+      IDENTITY_SERVICE_URL: http://identity-service:4001
+      ACCESS_SERVICE_URL: http://access-service:4002
+      MEDIA_SERVICE_URL: http://media-service:4003
+      TENANT_SERVICE_URL: http://tenant-service:4023
+    ports:
+      - "4100:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keephy-staging-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  identity-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-identity-service-staging
+    command: npm run start:prod
+    working_dir: /app/backend/services/identity-service
+    environment:
+      NODE_ENV: staging
+      PORT: 4001
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-${STAGING_DB_PASSWORD}}@postgres:5432/${POSTGRES_DB:-hrmssystem_staging}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      ACCESS_TOKEN_TTL: ${ACCESS_TOKEN_TTL:-900}
+      REFRESH_TOKEN_TTL: ${REFRESH_TOKEN_TTL:-2592000}
+      BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS:-12}
+      ACCESS_SERVICE_URL: http://access-service:4002
+      TENANT_SERVICE_URL: http://tenant-service:4023
+    ports:
+      - "4101:4001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      access-service:
+        condition: service_started
+    networks:
+      - keephy-staging-network
+    restart: unless-stopped
+
+  access-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-access-service-staging
+    command: npm run start:prod
+    working_dir: /app/backend/services/access-service
+    environment:
+      NODE_ENV: staging
+      PORT: 4002
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-${STAGING_DB_PASSWORD}}@postgres:5432/${POSTGRES_DB:-hrmssystem_staging}
+    ports:
+      - "4102:4002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keephy-staging-network
+    restart: unless-stopped
+
+  tenant-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-tenant-service-staging
+    command: npm run start:prod
+    working_dir: /app/backend/services/tenant-service
+    environment:
+      NODE_ENV: staging
+      PORT: 4023
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-${STAGING_DB_PASSWORD}}@postgres:5432/${POSTGRES_DB:-hrmssystem_staging}
+      ACCESS_SERVICE_URL: http://access-service:4002
+      IDENTITY_SERVICE_URL: http://identity-service:4001
+    ports:
+      - "4123:4023"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      access-service:
+        condition: service_started
+      identity-service:
+        condition: service_started
+    networks:
+      - keephy-staging-network
+    restart: unless-stopped
+
+  media-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-media-service-staging
+    command: npm run start:prod
+    working_dir: /app/backend/services/media-service
+    environment:
+      NODE_ENV: staging
+      PORT: 4003
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-${STAGING_DB_PASSWORD}}@postgres:5432/${POSTGRES_DB:-hrmssystem_staging}
+    ports:
+      - "4103:4003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keephy-staging-network
+    restart: unless-stopped
+    volumes:
+      - media_staging_storage:/app/backend/services/media-service/storage
+
+  frontend-marketing:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend.prod
+      args:
+        NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:4100}
+    container_name: keephy-frontend-marketing-staging
+    command: npm run start
+    working_dir: /app/frontend/marketing
+    environment:
+      NODE_ENV: staging
+      PORT: 4200
+      NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:4100}
+      NEXT_PUBLIC_ROOT_DOMAIN: ${NEXT_PUBLIC_ROOT_DOMAIN:-staging.keephy.com}
+    ports:
+      - "4300:4200"
+    depends_on:
+      - api-gateway
+    networks:
+      - keephy-staging-network
+    restart: unless-stopped
+
+networks:
+  keephy-staging-network:
+    driver: bridge
+
+volumes:
+  postgres_staging_data:
+  media_staging_storage:
+

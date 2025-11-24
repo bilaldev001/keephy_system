@@ -1,0 +1,39 @@
+# Frontend Applications Dockerfile
+# Base image for all Next.js frontend applications
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apk add --no-cache \
+    libc6-compat \
+    python3 \
+    make \
+    g++
+
+# Copy root package files (if any)
+COPY package*.json ./
+
+# Copy frontend package files
+COPY frontend/package*.json ./frontend/
+
+# Install root dependencies
+RUN cd frontend && npm install || true
+
+# Copy frontend source (will be overridden by volume in dev)
+COPY frontend/ ./frontend/
+
+# Set working directory for app commands
+WORKDIR /app/frontend
+
+# Environment variables
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Expose port (will be overridden in docker-compose)
+EXPOSE 4200
+
+# Default command (will be overridden in docker-compose)
+CMD ["npm", "run", "dev"]
+

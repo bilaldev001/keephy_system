@@ -1,0 +1,227 @@
+version: '3.8'
+
+# Production Environment Configuration
+# Optimized, secure, production-ready
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: keephy-postgres-prod
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-hrmssystem}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ./backend/docs/domain/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    networks:
+      - keephy-prod-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-api-gateway-prod
+    command: npm run start:prod
+    working_dir: /app/backend/services/api-gateway
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hrmssystem}
+      IDENTITY_SERVICE_URL: http://identity-service:4001
+      ACCESS_SERVICE_URL: http://access-service:4002
+      MEDIA_SERVICE_URL: http://media-service:4003
+      TENANT_SERVICE_URL: http://tenant-service:4023
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keephy-prod-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  identity-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-identity-service-prod
+    command: npm run start:prod
+    working_dir: /app/backend/services/identity-service
+    environment:
+      NODE_ENV: production
+      PORT: 4001
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hrmssystem}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      ACCESS_TOKEN_TTL: ${ACCESS_TOKEN_TTL:-900}
+      REFRESH_TOKEN_TTL: ${REFRESH_TOKEN_TTL:-2592000}
+      BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS:-12}
+      ACCESS_SERVICE_URL: http://access-service:4002
+      TENANT_SERVICE_URL: http://tenant-service:4023
+    depends_on:
+      postgres:
+        condition: service_healthy
+      access-service:
+        condition: service_started
+    networks:
+      - keephy-prod-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  access-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-access-service-prod
+    command: npm run start:prod
+    working_dir: /app/backend/services/access-service
+    environment:
+      NODE_ENV: production
+      PORT: 4002
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hrmssystem}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keephy-prod-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  tenant-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-tenant-service-prod
+    command: npm run start:prod
+    working_dir: /app/backend/services/tenant-service
+    environment:
+      NODE_ENV: production
+      PORT: 4023
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hrmssystem}
+      ACCESS_SERVICE_URL: http://access-service:4002
+      IDENTITY_SERVICE_URL: http://identity-service:4001
+    depends_on:
+      postgres:
+        condition: service_healthy
+      access-service:
+        condition: service_started
+      identity-service:
+        condition: service_started
+    networks:
+      - keephy-prod-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  media-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.prod
+    container_name: keephy-media-service-prod
+    command: npm run start:prod
+    working_dir: /app/backend/services/media-service
+    environment:
+      NODE_ENV: production
+      PORT: 4003
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hrmssystem}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keephy-prod-network
+    restart: always
+    volumes:
+      - media_prod_storage:/app/backend/services/media-service/storage
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  frontend-marketing:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend.prod
+      args:
+        NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL}
+    container_name: keephy-frontend-marketing-prod
+    command: npm run start
+    working_dir: /app/frontend/marketing
+    environment:
+      NODE_ENV: production
+      PORT: 4200
+      NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL}
+      NEXT_PUBLIC_ROOT_DOMAIN: ${NEXT_PUBLIC_ROOT_DOMAIN}
+    depends_on:
+      - api-gateway
+    networks:
+      - keephy-prod-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+networks:
+  keephy-prod-network:
+    driver: bridge
+
+volumes:
+  postgres_prod_data:
+  media_prod_storage:
+
