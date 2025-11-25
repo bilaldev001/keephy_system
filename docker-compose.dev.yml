@@ -41,40 +41,41 @@ services:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-4000}
+      PORT: ${PORT:-5000}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
-      IDENTITY_SERVICE_URL: ${IDENTITY_SERVICE_URL:-http://identity-service:4001}
-      ACCESS_SERVICE_URL: ${ACCESS_SERVICE_URL:-http://access-service:4002}
-      MEDIA_SERVICE_URL: ${MEDIA_SERVICE_URL:-http://media-service:4003}
-      CONTACTS_SERVICE_URL: ${CONTACTS_SERVICE_URL:-http://contacts-service:4004}
-      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:4006}
-      AUDIT_SERVICE_URL: ${AUDIT_SERVICE_URL:-http://audit-service:4007}
-      TENANT_SERVICE_URL: ${TENANT_SERVICE_URL:-http://tenant-service:4023}
-      FBMS_SERVICE_URL: ${FBMS_SERVICE_URL:-http://fbms-service:4014}
-      SUBSCRIPTIONS_SERVICE_URL: ${SUBSCRIPTIONS_SERVICE_URL:-http://subscriptions-service:4010}
-      ENTITLEMENTS_SERVICE_URL: ${ENTITLEMENTS_SERVICE_URL:-http://entitlements-service:4011}
-      BILLING_SERVICE_URL: ${BILLING_SERVICE_URL:-http://billing-service:4012}
-      OBSERVABILITY_SERVICE_URL: ${OBSERVABILITY_SERVICE_URL:-http://observability-service:4013}
-      HRMS_SERVICE_URL: ${HRMS_SERVICE_URL:-http://hrms-service:4015}
-      SCM_SERVICE_URL: ${SCM_SERVICE_URL:-http://scm-service:4016}
-      PAYROLL_SERVICE_URL: ${PAYROLL_SERVICE_URL:-http://payroll-service:4017}
-      INVENTORY_SERVICE_URL: ${INVENTORY_SERVICE_URL:-http://inventory-service:4017}
-      CRM_SERVICE_URL: ${CRM_SERVICE_URL:-http://crm-service:4018}
-      SUPPORT_SERVICE_URL: ${SUPPORT_SERVICE_URL:-http://support-service:4019}
-      COMPLIANCE_SERVICE_URL: ${COMPLIANCE_SERVICE_URL:-http://compliance-service:4020}
-      ANALYTICS_SERVICE_URL: ${ANALYTICS_SERVICE_URL:-http://analytics-service:4021}
-      EMS_SERVICE_URL: ${EMS_SERVICE_URL:-http://ems-service:4022}
-      VOUCHER_SERVICE_URL: ${VOUCHER_SERVICE_URL:-http://voucher-service:4024}
-      FORMS_SERVICE_URL: ${FORMS_SERVICE_URL:-http://forms-service:4025}
-      BUILDER_SERVICE_URL: ${BUILDER_SERVICE_URL:-http://builder-service:4026}
-      ONBOARDING_SERVICE_URL: ${ONBOARDING_SERVICE_URL:-http://onboarding-service:4027}
-      ADMIN_SERVICE_URL: ${ADMIN_SERVICE_URL:-http://admin-service:4028}
-      AI_SERVICE_URL: ${AI_SERVICE_URL:-http://ai-service:4029}
-      LIFECYCLE_SERVICE_URL: ${LIFECYCLE_SERVICE_URL:-http://lifecycle-service:4030}
-      INTEGRATION_SERVICE_URL: ${INTEGRATION_SERVICE_URL:-http://integration-service:4031}
-      MOBILE_SERVICE_URL: ${MOBILE_SERVICE_URL:-http://mobile-service:4032}
+      IDENTITY_SERVICE_URL: ${IDENTITY_SERVICE_URL:-http://identity-service:5005}
+      ACCESS_SERVICE_URL: ${ACCESS_SERVICE_URL:-http://access-service:5010}
+      MEDIA_SERVICE_URL: ${MEDIA_SERVICE_URL:-http://media-service:5020}
+      CONTACTS_SERVICE_URL: ${CONTACTS_SERVICE_URL:-http://contacts-service:5030}
+      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:5035}
+      AUDIT_SERVICE_URL: ${AUDIT_SERVICE_URL:-http://audit-service:5040}
+      TENANT_SERVICE_URL: ${TENANT_SERVICE_URL:-http://tenant-service:5015}
+      FBMS_SERVICE_URL: ${FBMS_SERVICE_URL:-http://fbms-service:5025}
+      SUBSCRIPTIONS_SERVICE_URL: ${SUBSCRIPTIONS_SERVICE_URL:-http://subscriptions-service:5045}
+      ENTITLEMENTS_SERVICE_URL: ${ENTITLEMENTS_SERVICE_URL:-http://entitlements-service:5050}
+      BILLING_SERVICE_URL: ${BILLING_SERVICE_URL:-http://billing-service:5055}
+      OBSERVABILITY_SERVICE_URL: ${OBSERVABILITY_SERVICE_URL:-http://observability-service:5060}
+      HRMS_SERVICE_URL: ${HRMS_SERVICE_URL:-http://hrms-service:5065}
+      SCM_SERVICE_URL: ${SCM_SERVICE_URL:-http://scm-service:5070}
+      PAYROLL_SERVICE_URL: ${PAYROLL_SERVICE_URL:-http://payroll-service:5075}
+      INVENTORY_SERVICE_URL: ${INVENTORY_SERVICE_URL:-http://inventory-service:5080}
+      CRM_SERVICE_URL: ${CRM_SERVICE_URL:-http://crm-service:5085}
+      SUPPORT_SERVICE_URL: ${SUPPORT_SERVICE_URL:-http://support-service:5090}
+      COMPLIANCE_SERVICE_URL: ${COMPLIANCE_SERVICE_URL:-http://compliance-service:5095}
+      ANALYTICS_SERVICE_URL: ${ANALYTICS_SERVICE_URL:-http://analytics-service:5100}
+      EMS_SERVICE_URL: ${EMS_SERVICE_URL:-http://ems-service:5105}
+      VOUCHER_SERVICE_URL: ${VOUCHER_SERVICE_URL:-http://voucher-service:5110}
+      FORMS_SERVICE_URL: ${FORMS_SERVICE_URL:-http://forms-service:5115}
+      BUILDER_SERVICE_URL: ${BUILDER_SERVICE_URL:-http://builder-service:5120}
+      ONBOARDING_SERVICE_URL: ${ONBOARDING_SERVICE_URL:-http://onboarding-service:5125}
+      ADMIN_SERVICE_URL: ${ADMIN_SERVICE_URL:-http://admin-service:5130}
+      AI_SERVICE_URL: ${AI_SERVICE_URL:-http://ai-service:5135}
+      LIFECYCLE_SERVICE_URL: ${LIFECYCLE_SERVICE_URL:-http://lifecycle-service:5140}
+      INTEGRATION_SERVICE_URL: ${INTEGRATION_SERVICE_URL:-http://integration-service:5145}
+      MOBILE_SERVICE_URL: ${MOBILE_SERVICE_URL:-http://mobile-service:5150}
+      FACILITIES_SERVICE_URL: ${FACILITIES_SERVICE_URL:-http://facilities-service:5155}
     ports:
-      - "4000:4000"
+      - "5000:5000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -95,17 +96,17 @@ services:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-4001}
+      PORT: ${PORT:-5005}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-Keephy1234Access1234Secret123456789}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-Keephy1234Access1234Secret123456789}
       ACCESS_TOKEN_TTL: ${ACCESS_TOKEN_TTL:-1800}
       REFRESH_TOKEN_TTL: ${REFRESH_TOKEN_TTL:-2592000}
       BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS:-10}
-      ACCESS_SERVICE_URL: ${ACCESS_SERVICE_URL:-http://access-service:4002}
-      SUBSCRIPTIONS_SERVICE_URL: ${SUBSCRIPTIONS_SERVICE_URL:-http://subscriptions-service:4010}
-      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:4006}
-      TENANT_SERVICE_URL: ${TENANT_SERVICE_URL:-http://tenant-service:4023}
+      ACCESS_SERVICE_URL: ${ACCESS_SERVICE_URL:-http://access-service:5010}
+      SUBSCRIPTIONS_SERVICE_URL: ${SUBSCRIPTIONS_SERVICE_URL:-http://subscriptions-service:5045}
+      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:5035}
+      TENANT_SERVICE_URL: ${TENANT_SERVICE_URL:-http://tenant-service:5015}
     ports:
       - "4001:4001"
     depends_on:
@@ -126,9 +127,9 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4002
+      PORT: ${PORT:-5010}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
-      IDENTITY_SERVICE_URL: http://identity-service:4001
+      IDENTITY_SERVICE_URL: http://identity-service:5005
     ports:
       - "4002:4002"
     depends_on:
@@ -149,10 +150,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4023
+      PORT: ${PORT:-5015}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
-      ACCESS_SERVICE_URL: http://access-service:4002
-      IDENTITY_SERVICE_URL: http://identity-service:4001
+      ACCESS_SERVICE_URL: http://access-service:5010
+      IDENTITY_SERVICE_URL: http://identity-service:5005
     ports:
       - "4023:4023"
     depends_on:
@@ -177,7 +178,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4003
+      PORT: ${PORT:-5020}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4003:4003"
@@ -200,7 +201,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4014
+      PORT: ${PORT:-5025}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4014:4014"
@@ -222,7 +223,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4004
+      PORT: ${PORT:-5030}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4004:4004"
@@ -244,7 +245,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4006
+      PORT: ${PORT:-5035}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4006:4006"
@@ -266,7 +267,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4006
+      PORT: ${PORT:-5040}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4007:4006"
@@ -288,7 +289,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4010
+      PORT: ${PORT:-5045}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4010:4010"
@@ -310,7 +311,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4011
+      PORT: ${PORT:-5050}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4011:4011"
@@ -332,10 +333,12 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4012
+      PORT: ${PORT:-5055}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_default_stripe_secret_key_for_development}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_default_webhook_secret_for_development}
     ports:
-      - "4012:4012"
+      - "5055:5055"
     depends_on:
       postgres:
         condition: service_healthy
@@ -354,7 +357,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4013
+      PORT: ${PORT:-5060}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4013:4013"
@@ -376,7 +379,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4015
+      PORT: ${PORT:-5065}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4015:4015"
@@ -398,7 +401,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4016
+      PORT: ${PORT:-5070}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4016:4016"
@@ -420,10 +423,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4017
+      PORT: ${PORT:-5075}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4017:4017"
+      - "5075:5075"
     depends_on:
       postgres:
         condition: service_healthy
@@ -442,7 +445,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4017
+      PORT: ${PORT:-5080}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4018:4017"
@@ -464,7 +467,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4018
+      PORT: ${PORT:-5085}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4019:4018"
@@ -486,10 +489,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4019
+      PORT: ${PORT:-5090}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4020:4019"
+      - "5090:5090"
     depends_on:
       postgres:
         condition: service_healthy
@@ -508,10 +511,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4020
+      PORT: ${PORT:-5095}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4021:4020"
+      - "5095:5095"
     depends_on:
       postgres:
         condition: service_healthy
@@ -530,7 +533,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4021
+      PORT: ${PORT:-5100}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4022:4021"
@@ -552,10 +555,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4022
+      PORT: ${PORT:-5105}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4022:4022"
+      - "4018:4018"
     depends_on:
       postgres:
         condition: service_healthy
@@ -574,7 +577,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4024
+      PORT: ${PORT:-5110}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4024:4024"
@@ -596,7 +599,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4025
+      PORT: ${PORT:-5115}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4025:4025"
@@ -620,7 +623,7 @@ services:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-4026}
+      PORT: ${PORT:-5120}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
       BUILDER_JWT_SECRET: ${BUILDER_JWT_SECRET:-KeephyBuilderJWTSecret12345678901234567890}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_default_stripe_secret_key_for_development}
@@ -647,7 +650,7 @@ services:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-4027}
+      PORT: ${PORT:-5125}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
       DEMO_TENANT_ID: ${DEMO_TENANT_ID:-00000000-0000-0000-0000-000000000000}
     ports:
@@ -672,7 +675,7 @@ services:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-4028}
+      PORT: ${PORT:-5130}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
     ports:
       - "4028:4028"
@@ -694,7 +697,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4029
+      PORT: ${PORT:-5135}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4029:4029"
@@ -716,7 +719,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4030
+      PORT: ${PORT:-5140}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4030:4030"
@@ -738,7 +741,7 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4031
+      PORT: ${PORT:-5145}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
       - "4031:4031"
@@ -760,10 +763,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: 4032
+      PORT: ${PORT:-5150}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4032:4032"
+      - "5150:5150"
     depends_on:
       postgres:
         condition: service_healthy
@@ -772,6 +775,28 @@ services:
     volumes:
       - ./backend:/app/backend
       - mobile-service-dev-node-modules:/app/backend/services/mobile-service/node_modules
+
+  facilities-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: keephy-facilities-service-dev
+    command: sh -c "cd services/facilities-service && npm install --legacy-peer-deps && npm run start:dev"
+    working_dir: /app/backend
+    environment:
+      NODE_ENV: development
+      PORT: ${PORT:-5155}
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
+    ports:
+      - "5155:5155"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keephy-dev-network
+    volumes:
+      - ./backend:/app/backend
+      - facilities-service-dev-node-modules:/app/backend/services/facilities-service/node_modules
 
   # ============================================
   # Frontend Applications
@@ -785,8 +810,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4200
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4000
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_ROOT_DOMAIN: localhost
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -809,8 +834,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4201
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4005
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -836,7 +861,7 @@ services:
       - .env.frontend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-4208}
+      PORT: ${PORT:-4010}
       NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:4000}
       NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-http://localhost:4200}
       NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL:-http://localhost:4201}
@@ -861,8 +886,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4212
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4015
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -886,8 +911,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4213
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4020
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -911,8 +936,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4218
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4025
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -936,8 +961,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5005
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4030
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -961,8 +986,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5002
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4035
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -986,8 +1011,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5003
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4040
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -1011,8 +1036,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5004
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4045
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -1036,8 +1061,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5007
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4050
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -1061,8 +1086,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5008
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4055
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -1086,8 +1111,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5009
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4060
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -1111,8 +1136,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5010
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4065
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -1136,8 +1161,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 5011
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4070
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -1161,8 +1186,8 @@ services:
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4205
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:4000
+      PORT: 4075
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
       NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
     ports:
@@ -1216,6 +1241,7 @@ volumes:
   lifecycle-service-dev-node-modules:
   integration-service-dev-node-modules:
   mobile-service-dev-node-modules:
+  facilities-service-dev-node-modules:
   # Frontend app node_modules volumes
   marketing-dev-node-modules:
   console-dev-node-modules:
