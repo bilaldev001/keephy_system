@@ -308,9 +308,9 @@ check_service() {
 # Check critical services
 CRITICAL_SERVICES=(
     "api-gateway:4000"
-    "identity-service:4001"
-    "frontend-marketing:4200"
-    "frontend-console:4201"
+    "identity-service:3012"
+    "frontend-marketing:5200"
+    "frontend-console:5205"
 )
 
 while [ $WAIT_COUNT -lt $MAX_WAIT ]; do
@@ -349,12 +349,12 @@ echo ""
 
 # Show service URLs
 echo "  Service URLs:"
-echo "    • API Gateway:        http://localhost:4000"
-echo "    • Identity Service:   http://localhost:4001"
-echo "    • Marketing App:       http://localhost:4200"
-echo "    • Console App:        http://localhost:4201"
-echo "    • FBMS App:           http://localhost:5005"
-echo "    • Analytics App:      http://localhost:5004"
+echo "    • API Gateway:        http://localhost:3010"
+echo "    • Identity Service:   http://localhost:3012"
+echo "    • Marketing App:       http://localhost:3074"
+echo "    • Console App:        http://localhost:3076"
+echo "    • FBMS App:           http://localhost:3088"
+echo "    • Analytics App:      http://localhost:3094"
 echo ""
 
 # Step 12: Final summary

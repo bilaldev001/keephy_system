@@ -48,9 +48,9 @@ This guide will help you get started with Docker and run all services easily, ev
 4. **Wait for services to start** (this may take a few minutes the first time)
 
 5. **Access the applications:**
-   - Marketing Site: http://localhost:4200
-   - API Gateway: http://localhost:4000
-   - FBMS: http://localhost:5005
+   - Marketing Site: http://localhost:3074
+   - API Gateway: http://localhost:3010
+   - FBMS: http://localhost:3088
 
 ### Option 2: Using Docker Compose Directly
 
@@ -294,7 +294,7 @@ docker compose logs api-gateway | grep "listening"
 
 3. **Test connectivity:**
    ```bash
-   curl http://localhost:4000/health
+   curl http://localhost:3010/health
    ```
 
 ### Out of Memory
@@ -368,26 +368,26 @@ The `.env.frontend` file contains:
 Once services are running, you can access them at:
 
 ### Backend Services
-- API Gateway: http://localhost:4000
-- Identity Service: http://localhost:4001
-- Access Service: http://localhost:4002
-- FBMS Service: http://localhost:4014
+- API Gateway: http://localhost:3010
+- Identity Service: http://localhost:3012
+- Access Service: http://localhost:3014
+- FBMS Service: http://localhost:3020
 
 ### Frontend Applications
-- Marketing: http://localhost:4200
-- Builder: http://localhost:4208
-- Forms: http://localhost:4212
-- HRMS: http://localhost:4213
-- Vouchers: http://localhost:4218
-- FBMS: http://localhost:5005
-- CRM: http://localhost:5002
-- Billing: http://localhost:5003
-- Analytics: http://localhost:5004
-- Compliance: http://localhost:5007
-- EMS: http://localhost:5008
-- Inventory: http://localhost:5009
-- SCM: http://localhost:5010
-- Support: http://localhost:5011
+- Marketing: http://localhost:3074
+- Builder: http://localhost:3080
+- Forms: http://localhost:3082
+- HRMS: http://localhost:3084
+- Vouchers: http://localhost:3086
+- FBMS: http://localhost:3088
+- CRM: http://localhost:3090
+- Billing: http://localhost:3092
+- Analytics: http://localhost:3094
+- Compliance: http://localhost:3096
+- EMS: http://localhost:3098
+- Inventory: http://localhost:3100
+- SCM: http://localhost:3102
+- Support: http://localhost:3104
 
 ## Common Workflows
 

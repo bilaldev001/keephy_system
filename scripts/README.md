@@ -124,8 +124,8 @@ Make sure you have the following environment variables set (or use `.env` files)
 DATABASE_URL=postgresql://user:password@localhost:5432/hrmssystem
 
 # Services (optional - defaults provided)
-IDENTITY_SERVICE_URL=http://localhost:4001
-ACCESS_SERVICE_URL=http://localhost:4002
+IDENTITY_SERVICE_URL=http://localhost:3012
+ACCESS_SERVICE_URL=http://localhost:3014
 # ... etc
 ```
 

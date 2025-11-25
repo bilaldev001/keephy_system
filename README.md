@@ -18,9 +18,9 @@ A comprehensive HRMS and business management platform built with microservices a
    Select option 1 to start all services.
 
 3. **Access the applications:**
-   - Marketing Site: http://localhost:4200
-   - API Gateway: http://localhost:4000
-   - FBMS: http://localhost:5005
+   - Marketing Site: http://localhost:3074
+   - API Gateway: http://localhost:3010
+   - FBMS: http://localhost:3088
 
 **For detailed Docker instructions, see [DOCKER_GUIDE.md](./DOCKER_GUIDE.md)**
 
@@ -71,7 +71,7 @@ docker compose ps
 
 ### Frontend Applications (15 total)
 
-- **marketing** (4200) - Marketing website
+- **marketing** (5200) - Marketing website
 - **fbms** (5005) - Feedback Management System UI
 - **hrms** (4213) - HRMS UI
 - And 12 more applications...

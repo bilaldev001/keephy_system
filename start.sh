@@ -96,9 +96,9 @@ start_all() {
     echo -e "${GREEN}✅ All services are starting!${NC}"
     echo ""
     echo "Services will be available at:"
-    echo "  - API Gateway: http://localhost:4000"
-    echo "  - Marketing: http://localhost:4200"
-    echo "  - FBMS: http://localhost:5005"
+    echo "  - API Gateway: http://localhost:3010"
+    echo "  - Marketing: http://localhost:3074"
+    echo "  - FBMS: http://localhost:3088"
     echo ""
     echo "Use './start.sh' and select option 5 to view logs"
     echo "Use './start.sh' and select option 6 to check status"
@@ -168,13 +168,13 @@ check_status() {
     echo -e "${BLUE}Service Health:${NC}"
     echo ""
     # Check if services are responding
-    if curl -s http://localhost:4000/health > /dev/null 2>&1; then
+    if curl -s http://localhost:3010/health > /dev/null 2>&1; then
         echo -e "${GREEN}✅ API Gateway: Running${NC}"
     else
         echo -e "${RED}❌ API Gateway: Not responding${NC}"
     fi
     
-    if curl -s http://localhost:4200 > /dev/null 2>&1; then
+    if curl -s http://localhost:3074 > /dev/null 2>&1; then
         echo -e "${GREEN}✅ Marketing Frontend: Running${NC}"
     else
         echo -e "${YELLOW}⚠️  Marketing Frontend: Not responding (may still be starting)${NC}"
@@ -187,26 +187,26 @@ view_urls() {
     echo -e "${BLUE}Service URLs:${NC}"
     echo ""
     echo "Backend Services:"
-    echo "  - API Gateway: http://localhost:4000"
-    echo "  - Identity Service: http://localhost:4001"
-    echo "  - Access Service: http://localhost:4002"
-    echo "  - FBMS Service: http://localhost:4014"
+    echo "  - API Gateway: http://localhost:3010"
+    echo "  - Identity Service: http://localhost:3012"
+    echo "  - Access Service: http://localhost:3014"
+    echo "  - FBMS Service: http://localhost:3020"
     echo ""
     echo "Frontend Applications:"
-    echo "  - Marketing: http://localhost:4200"
-    echo "  - Builder: http://localhost:4208"
-    echo "  - Forms: http://localhost:4212"
-    echo "  - HRMS: http://localhost:4213"
-    echo "  - Vouchers: http://localhost:4218"
-    echo "  - FBMS: http://localhost:5005"
-    echo "  - CRM: http://localhost:5002"
-    echo "  - Billing: http://localhost:5003"
-    echo "  - Analytics: http://localhost:5004"
-    echo "  - Compliance: http://localhost:5007"
-    echo "  - EMS: http://localhost:5008"
-    echo "  - Inventory: http://localhost:5009"
-    echo "  - SCM: http://localhost:5010"
-    echo "  - Support: http://localhost:5011"
+    echo "  - Marketing: http://localhost:3074"
+    echo "  - Builder: http://localhost:3080"
+    echo "  - Forms: http://localhost:3082"
+    echo "  - HRMS: http://localhost:3084"
+    echo "  - Vouchers: http://localhost:3086"
+    echo "  - FBMS: http://localhost:3088"
+    echo "  - CRM: http://localhost:3090"
+    echo "  - Billing: http://localhost:3092"
+    echo "  - Analytics: http://localhost:3094"
+    echo "  - Compliance: http://localhost:3096"
+    echo "  - EMS: http://localhost:3098"
+    echo "  - Inventory: http://localhost:3100"
+    echo "  - SCM: http://localhost:3102"
+    echo "  - Support: http://localhost:3104"
     echo ""
 }
 

@@ -1,16 +1,16 @@
 # Backend Services Dockerfile
 # Base image for all NestJS backend services
 
-FROM node:18-alpine
+FROM node:22
 
 WORKDIR /app
 
 # Install system dependencies
-RUN apk add --no-cache \
-    libc6-compat \
+RUN apt-get update && apt-get install -y \
     python3 \
     make \
-    g++
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy root package files (if any)
 COPY package*.json ./
@@ -18,8 +18,9 @@ COPY package*.json ./
 # Copy backend package files
 COPY backend/package*.json ./backend/
 
-# Install root dependencies
-RUN cd backend && npm install --legacy-peer-deps || true
+# Install root dependencies and rebuild native modules
+RUN cd backend && npm install --legacy-peer-deps || true && \
+    npm rebuild bcrypt --build-from-source || true
 
 # Copy backend source (will be overridden by volume in dev)
 COPY backend/ ./backend/

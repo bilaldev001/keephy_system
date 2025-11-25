@@ -13,7 +13,7 @@ from typing import Any, Dict, List
 
 import requests
 
-GATEWAY_URL = os.environ.get("GATEWAY_URL", "http://localhost:4000")
+GATEWAY_URL = os.environ.get("GATEWAY_URL", "http://localhost:3010")
 OUTPUT_DIR = pathlib.Path(os.environ.get("ANALYTICS_OUTPUT_DIR", "./tmp/analytics"))
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

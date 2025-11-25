@@ -242,7 +242,7 @@ main() {
     log_success "All services are running"
     echo ""
     log_info "Key URLs:"
-    echo "  API Gateway:     http://localhost:4000"
+    echo "  API Gateway:     http://localhost:3010"
     echo "  Admin Frontend:  http://localhost:4205"
     echo ""
     log_info "Logs are available in: $LOG_DIR"

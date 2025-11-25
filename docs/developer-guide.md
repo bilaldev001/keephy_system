@@ -99,7 +99,7 @@ Every service **must**:
    - Shared header/footer/auth components live in `@keephy/ui-core` so every MF renders identical chrome.
    - Environment variables (set via `.env.local`, see `frontend/marketing/ENVIRONMENT.md`):
      ```
-     NEXT_PUBLIC_GATEWAY_URL=http://localhost:4000
+     NEXT_PUBLIC_GATEWAY_URL=http://localhost:3010
      NEXT_PUBLIC_ROOT_DOMAIN=keephy.localhost
      NEXT_PUBLIC_MODULE_HRMS_URL=http://localhost:3001
      NEXT_PUBLIC_MODULE_BILLING_URL=http://localhost:3002

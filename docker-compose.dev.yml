@@ -41,41 +41,41 @@ services:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-5000}
+      PORT: ${PORT:-3010}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
-      IDENTITY_SERVICE_URL: ${IDENTITY_SERVICE_URL:-http://identity-service:5005}
-      ACCESS_SERVICE_URL: ${ACCESS_SERVICE_URL:-http://access-service:5010}
-      MEDIA_SERVICE_URL: ${MEDIA_SERVICE_URL:-http://media-service:5020}
-      CONTACTS_SERVICE_URL: ${CONTACTS_SERVICE_URL:-http://contacts-service:5030}
-      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:5035}
-      AUDIT_SERVICE_URL: ${AUDIT_SERVICE_URL:-http://audit-service:5040}
-      TENANT_SERVICE_URL: ${TENANT_SERVICE_URL:-http://tenant-service:5015}
-      FBMS_SERVICE_URL: ${FBMS_SERVICE_URL:-http://fbms-service:5025}
-      SUBSCRIPTIONS_SERVICE_URL: ${SUBSCRIPTIONS_SERVICE_URL:-http://subscriptions-service:5045}
-      ENTITLEMENTS_SERVICE_URL: ${ENTITLEMENTS_SERVICE_URL:-http://entitlements-service:5050}
-      BILLING_SERVICE_URL: ${BILLING_SERVICE_URL:-http://billing-service:5055}
-      OBSERVABILITY_SERVICE_URL: ${OBSERVABILITY_SERVICE_URL:-http://observability-service:5060}
-      HRMS_SERVICE_URL: ${HRMS_SERVICE_URL:-http://hrms-service:5065}
-      SCM_SERVICE_URL: ${SCM_SERVICE_URL:-http://scm-service:5070}
-      PAYROLL_SERVICE_URL: ${PAYROLL_SERVICE_URL:-http://payroll-service:5075}
-      INVENTORY_SERVICE_URL: ${INVENTORY_SERVICE_URL:-http://inventory-service:5080}
-      CRM_SERVICE_URL: ${CRM_SERVICE_URL:-http://crm-service:5085}
-      SUPPORT_SERVICE_URL: ${SUPPORT_SERVICE_URL:-http://support-service:5090}
-      COMPLIANCE_SERVICE_URL: ${COMPLIANCE_SERVICE_URL:-http://compliance-service:5095}
-      ANALYTICS_SERVICE_URL: ${ANALYTICS_SERVICE_URL:-http://analytics-service:5100}
-      EMS_SERVICE_URL: ${EMS_SERVICE_URL:-http://ems-service:5105}
-      VOUCHER_SERVICE_URL: ${VOUCHER_SERVICE_URL:-http://voucher-service:5110}
-      FORMS_SERVICE_URL: ${FORMS_SERVICE_URL:-http://forms-service:5115}
-      BUILDER_SERVICE_URL: ${BUILDER_SERVICE_URL:-http://builder-service:5120}
-      ONBOARDING_SERVICE_URL: ${ONBOARDING_SERVICE_URL:-http://onboarding-service:5125}
-      ADMIN_SERVICE_URL: ${ADMIN_SERVICE_URL:-http://admin-service:5130}
-      AI_SERVICE_URL: ${AI_SERVICE_URL:-http://ai-service:5135}
-      LIFECYCLE_SERVICE_URL: ${LIFECYCLE_SERVICE_URL:-http://lifecycle-service:5140}
-      INTEGRATION_SERVICE_URL: ${INTEGRATION_SERVICE_URL:-http://integration-service:5145}
-      MOBILE_SERVICE_URL: ${MOBILE_SERVICE_URL:-http://mobile-service:5150}
-      FACILITIES_SERVICE_URL: ${FACILITIES_SERVICE_URL:-http://facilities-service:5155}
+      IDENTITY_SERVICE_URL: ${IDENTITY_SERVICE_URL:-http://identity-service:3012}
+      ACCESS_SERVICE_URL: ${ACCESS_SERVICE_URL:-http://access-service:3014}
+      MEDIA_SERVICE_URL: ${MEDIA_SERVICE_URL:-http://media-service:3018}
+      CONTACTS_SERVICE_URL: ${CONTACTS_SERVICE_URL:-http://contacts-service:3022}
+      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:3024}
+      AUDIT_SERVICE_URL: ${AUDIT_SERVICE_URL:-http://audit-service:3026}
+      TENANT_SERVICE_URL: ${TENANT_SERVICE_URL:-http://tenant-service:3016}
+      FBMS_SERVICE_URL: ${FBMS_SERVICE_URL:-http://fbms-service:3020}
+      SUBSCRIPTIONS_SERVICE_URL: ${SUBSCRIPTIONS_SERVICE_URL:-http://subscriptions-service:3028}
+      ENTITLEMENTS_SERVICE_URL: ${ENTITLEMENTS_SERVICE_URL:-http://entitlements-service:3030}
+      BILLING_SERVICE_URL: ${BILLING_SERVICE_URL:-http://billing-service:3032}
+      OBSERVABILITY_SERVICE_URL: ${OBSERVABILITY_SERVICE_URL:-http://observability-service:3034}
+      HRMS_SERVICE_URL: ${HRMS_SERVICE_URL:-http://hrms-service:3036}
+      SCM_SERVICE_URL: ${SCM_SERVICE_URL:-http://scm-service:3038}
+      PAYROLL_SERVICE_URL: ${PAYROLL_SERVICE_URL:-http://payroll-service:3040}
+      INVENTORY_SERVICE_URL: ${INVENTORY_SERVICE_URL:-http://inventory-service:3042}
+      CRM_SERVICE_URL: ${CRM_SERVICE_URL:-http://crm-service:3044}
+      SUPPORT_SERVICE_URL: ${SUPPORT_SERVICE_URL:-http://support-service:3046}
+      COMPLIANCE_SERVICE_URL: ${COMPLIANCE_SERVICE_URL:-http://compliance-service:3048}
+      ANALYTICS_SERVICE_URL: ${ANALYTICS_SERVICE_URL:-http://analytics-service:3050}
+      EMS_SERVICE_URL: ${EMS_SERVICE_URL:-http://ems-service:3052}
+      VOUCHER_SERVICE_URL: ${VOUCHER_SERVICE_URL:-http://voucher-service:3054}
+      FORMS_SERVICE_URL: ${FORMS_SERVICE_URL:-http://forms-service:3056}
+      BUILDER_SERVICE_URL: ${BUILDER_SERVICE_URL:-http://builder-service:3058}
+      ONBOARDING_SERVICE_URL: ${ONBOARDING_SERVICE_URL:-http://onboarding-service:3060}
+      ADMIN_SERVICE_URL: ${ADMIN_SERVICE_URL:-http://admin-service:3062}
+      AI_SERVICE_URL: ${AI_SERVICE_URL:-http://ai-service:3064}
+      LIFECYCLE_SERVICE_URL: ${LIFECYCLE_SERVICE_URL:-http://lifecycle-service:3066}
+      INTEGRATION_SERVICE_URL: ${INTEGRATION_SERVICE_URL:-http://integration-service:3068}
+      MOBILE_SERVICE_URL: ${MOBILE_SERVICE_URL:-http://mobile-service:3070}
+      FACILITIES_SERVICE_URL: ${FACILITIES_SERVICE_URL:-http://facilities-service:3072}
     ports:
-      - "5000:5000"
+      - "3010:3010"
     depends_on:
       postgres:
         condition: service_healthy
@@ -90,25 +90,25 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-identity-service-dev
-    command: sh -c "cd services/identity-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/identity-service && rm -rf node_modules/bcrypt 2>/dev/null || true && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm install --legacy-peer-deps && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/identity-service && npm run start:dev"
     working_dir: /app/backend
     env_file:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-5005}
+      PORT: ${PORT:-3012}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-Keephy1234Access1234Secret123456789}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-Keephy1234Access1234Secret123456789}
       ACCESS_TOKEN_TTL: ${ACCESS_TOKEN_TTL:-1800}
       REFRESH_TOKEN_TTL: ${REFRESH_TOKEN_TTL:-2592000}
       BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS:-10}
-      ACCESS_SERVICE_URL: ${ACCESS_SERVICE_URL:-http://access-service:5010}
-      SUBSCRIPTIONS_SERVICE_URL: ${SUBSCRIPTIONS_SERVICE_URL:-http://subscriptions-service:5045}
-      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:5035}
-      TENANT_SERVICE_URL: ${TENANT_SERVICE_URL:-http://tenant-service:5015}
+      ACCESS_SERVICE_URL: ${ACCESS_SERVICE_URL:-http://access-service:3014}
+      SUBSCRIPTIONS_SERVICE_URL: ${SUBSCRIPTIONS_SERVICE_URL:-http://subscriptions-service:3028}
+      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:3024}
+      TENANT_SERVICE_URL: ${TENANT_SERVICE_URL:-http://tenant-service:3016}
     ports:
-      - "4001:4001"
+      - "3012:3012"
     depends_on:
       postgres:
         condition: service_healthy
@@ -123,15 +123,15 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-access-service-dev
-    command: sh -c "cd services/access-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/access-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/access-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5010}
+      PORT: ${PORT:-3014}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
-      IDENTITY_SERVICE_URL: http://identity-service:5005
+      IDENTITY_SERVICE_URL: http://identity-service:3012
     ports:
-      - "4002:4002"
+      - "3014:3014"
     depends_on:
       postgres:
         condition: service_healthy
@@ -150,12 +150,12 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5015}
+      PORT: ${PORT:-3016}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
-      ACCESS_SERVICE_URL: http://access-service:5010
-      IDENTITY_SERVICE_URL: http://identity-service:5005
+      ACCESS_SERVICE_URL: http://access-service:3014
+      IDENTITY_SERVICE_URL: http://identity-service:3012
     ports:
-      - "4023:4023"
+      - "3016:3016"
     depends_on:
       postgres:
         condition: service_healthy
@@ -178,10 +178,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5020}
+      PORT: ${PORT:-3018}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4003:4003"
+      - "3018:3018"
     depends_on:
       postgres:
         condition: service_healthy
@@ -201,10 +201,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5025}
+      PORT: ${PORT:-3020}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4014:4014"
+      - "3020:3020"
     depends_on:
       postgres:
         condition: service_healthy
@@ -219,14 +219,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-contacts-service-dev
-    command: sh -c "cd services/contacts-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/contacts-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/contacts-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5030}
+      PORT: ${PORT:-3022}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4004:4004"
+      - "3022:3022"
     depends_on:
       postgres:
         condition: service_healthy
@@ -241,14 +241,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-notifications-service-dev
-    command: sh -c "cd services/notifications-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/notifications-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/notifications-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5035}
+      PORT: ${PORT:-3024}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4006:4006"
+      - "3024:3024"
     depends_on:
       postgres:
         condition: service_healthy
@@ -263,14 +263,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-audit-service-dev
-    command: sh -c "cd services/audit-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/audit-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/audit-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5040}
+      PORT: ${PORT:-3026}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4007:4006"
+      - "3026:3026"
     depends_on:
       postgres:
         condition: service_healthy
@@ -285,14 +285,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-subscriptions-service-dev
-    command: sh -c "cd services/subscriptions-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/subscriptions-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/subscriptions-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5045}
+      PORT: ${PORT:-3028}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4010:4010"
+      - "3028:3028"
     depends_on:
       postgres:
         condition: service_healthy
@@ -307,14 +307,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-entitlements-service-dev
-    command: sh -c "cd services/entitlements-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/entitlements-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/entitlements-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5050}
+      PORT: ${PORT:-3030}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4011:4011"
+      - "3030:3030"
     depends_on:
       postgres:
         condition: service_healthy
@@ -329,16 +329,16 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-billing-service-dev
-    command: sh -c "cd services/billing-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/billing-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/billing-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5055}
+      PORT: ${PORT:-3032}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_default_stripe_secret_key_for_development}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_default_webhook_secret_for_development}
     ports:
-      - "5055:5055"
+      - "3032:3032"
     depends_on:
       postgres:
         condition: service_healthy
@@ -357,10 +357,10 @@ services:
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5060}
+      PORT: ${PORT:-3034}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4013:4013"
+      - "3034:3034"
     depends_on:
       postgres:
         condition: service_healthy
@@ -375,14 +375,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-hrms-service-dev
-    command: sh -c "cd services/hrms-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/hrms-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/hrms-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5065}
+      PORT: ${PORT:-3036}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4015:4015"
+      - "3036:3036"
     depends_on:
       postgres:
         condition: service_healthy
@@ -397,14 +397,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-scm-service-dev
-    command: sh -c "cd services/scm-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/scm-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/scm-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5070}
+      PORT: ${PORT:-3038}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4016:4016"
+      - "3038:3038"
     depends_on:
       postgres:
         condition: service_healthy
@@ -419,14 +419,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-payroll-service-dev
-    command: sh -c "cd services/payroll-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/payroll-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/payroll-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5075}
+      PORT: ${PORT:-3040}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "5075:5075"
+      - "3040:3040"
     depends_on:
       postgres:
         condition: service_healthy
@@ -441,14 +441,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-inventory-service-dev
-    command: sh -c "cd services/inventory-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/inventory-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/inventory-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5080}
+      PORT: ${PORT:-3042}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4018:4017"
+      - "3042:3042"
     depends_on:
       postgres:
         condition: service_healthy
@@ -463,14 +463,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-crm-service-dev
-    command: sh -c "cd services/crm-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/crm-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/crm-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5085}
+      PORT: ${PORT:-3044}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4019:4018"
+      - "3044:3044"
     depends_on:
       postgres:
         condition: service_healthy
@@ -485,14 +485,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-support-service-dev
-    command: sh -c "cd services/support-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/support-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/support-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5090}
+      PORT: ${PORT:-3046}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "5090:5090"
+      - "3046:3046"
     depends_on:
       postgres:
         condition: service_healthy
@@ -507,14 +507,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-compliance-service-dev
-    command: sh -c "cd services/compliance-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/compliance-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/compliance-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5095}
+      PORT: ${PORT:-3048}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "5095:5095"
+      - "3048:3048"
     depends_on:
       postgres:
         condition: service_healthy
@@ -529,14 +529,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-analytics-service-dev
-    command: sh -c "cd services/analytics-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/analytics-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/analytics-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5100}
+      PORT: ${PORT:-3050}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4022:4021"
+      - "3050:3050"
     depends_on:
       postgres:
         condition: service_healthy
@@ -551,14 +551,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-ems-service-dev
-    command: sh -c "cd services/ems-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/ems-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/ems-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5105}
+      PORT: ${PORT:-3052}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4018:4018"
+      - "3052:3052"
     depends_on:
       postgres:
         condition: service_healthy
@@ -573,14 +573,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-voucher-service-dev
-    command: sh -c "cd services/voucher-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/voucher-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/voucher-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5110}
+      PORT: ${PORT:-3054}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4024:4024"
+      - "3054:3054"
     depends_on:
       postgres:
         condition: service_healthy
@@ -595,14 +595,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-forms-service-dev
-    command: sh -c "cd services/forms-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/forms-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/forms-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5115}
+      PORT: ${PORT:-3056}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4025:4025"
+      - "3056:3056"
     depends_on:
       postgres:
         condition: service_healthy
@@ -617,19 +617,19 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-builder-service-dev
-    command: sh -c "cd services/builder-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/builder-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/builder-service && npm run start:dev"
     working_dir: /app/backend
     env_file:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-5120}
+      PORT: ${PORT:-3058}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
       BUILDER_JWT_SECRET: ${BUILDER_JWT_SECRET:-KeephyBuilderJWTSecret12345678901234567890}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_default_stripe_secret_key_for_development}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_default_webhook_secret_for_development}
     ports:
-      - "4026:4026"
+      - "3058:3058"
     depends_on:
       postgres:
         condition: service_healthy
@@ -644,17 +644,17 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-onboarding-service-dev
-    command: sh -c "cd services/onboarding-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/onboarding-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/onboarding-service && npm run start:dev"
     working_dir: /app/backend
     env_file:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-5125}
+      PORT: ${PORT:-3060}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
       DEMO_TENANT_ID: ${DEMO_TENANT_ID:-00000000-0000-0000-0000-000000000000}
     ports:
-      - "4027:4027"
+      - "3060:3060"
     depends_on:
       postgres:
         condition: service_healthy
@@ -669,16 +669,16 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-admin-service-dev
-    command: sh -c "cd services/admin-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/admin-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/admin-service && npm run start:dev"
     working_dir: /app/backend
     env_file:
       - .env.backend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-5130}
+      PORT: ${PORT:-3062}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hrmssystem_dev}
     ports:
-      - "4028:4028"
+      - "3062:3062"
     depends_on:
       postgres:
         condition: service_healthy
@@ -693,14 +693,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-ai-service-dev
-    command: sh -c "cd services/ai-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/ai-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/ai-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5135}
+      PORT: ${PORT:-3064}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4029:4029"
+      - "3064:3064"
     depends_on:
       postgres:
         condition: service_healthy
@@ -715,14 +715,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-lifecycle-service-dev
-    command: sh -c "cd services/lifecycle-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/lifecycle-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/lifecycle-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5140}
+      PORT: ${PORT:-3066}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4030:4030"
+      - "3066:3066"
     depends_on:
       postgres:
         condition: service_healthy
@@ -737,14 +737,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-integration-service-dev
-    command: sh -c "cd services/integration-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/integration-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/integration-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5145}
+      PORT: ${PORT:-3068}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "4031:4031"
+      - "3068:3068"
     depends_on:
       postgres:
         condition: service_healthy
@@ -759,14 +759,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-mobile-service-dev
-    command: sh -c "cd services/mobile-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/mobile-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/mobile-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5150}
+      PORT: ${PORT:-3070}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "5150:5150"
+      - "3070:3070"
     depends_on:
       postgres:
         condition: service_healthy
@@ -781,14 +781,14 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-facilities-service-dev
-    command: sh -c "cd services/facilities-service && npm install --legacy-peer-deps && npm run start:dev"
+    command: sh -c "cd services/facilities-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/facilities-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-5155}
+      PORT: ${PORT:-3072}
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/hrmssystem_dev
     ports:
-      - "5155:5155"
+      - "3072:3072"
     depends_on:
       postgres:
         condition: service_healthy
@@ -806,16 +806,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-marketing-dev
-    command: sh -c "cd marketing && npm install && npm run dev -- -p 4200"
+    command: sh -c "cd marketing && npm install && npm run dev -- -p 3074"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4000
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
+      PORT: 3074
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
       NEXT_PUBLIC_ROOT_DOMAIN: localhost
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "4200:4200"
+      - "3074:3074"
     depends_on:
       - api-gateway
     networks:
@@ -830,16 +830,17 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-console-dev
-    command: sh -c "cd console && npm install && npm run dev -- -p 4201"
+    command: sh -c "cd console && npm install && npm run dev -- -p 3076 -H 0.0.0.0"
     working_dir: /app/frontend
+    restart: unless-stopped
     environment:
       NODE_ENV: development
-      PORT: 4005
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3076
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "4201:4201"
+      - "3076:3076"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -855,18 +856,18 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-builder-dev
-    command: sh -c "cd builder && npm install && npm run dev -- -p 4208"
+    command: sh -c "cd builder && npm install && npm run dev -- -p 3080"
     working_dir: /app/frontend
     env_file:
       - .env.frontend
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-4010}
-      NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:4000}
-      NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-http://localhost:4200}
-      NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL:-http://localhost:4201}
+      PORT: ${PORT:-3080}
+      NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:3010}
+      NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-http://localhost:3074}
+      NEXT_PUBLIC_CONSOLE_URL: ${NEXT_PUBLIC_CONSOLE_URL:-http://localhost:3076}
     ports:
-      - "4208:4208"
+      - "3080:3080"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -882,16 +883,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-forms-dev
-    command: sh -c "cd forms && npm install && npm run dev -- -p 4212"
+    command: sh -c "cd forms && npm install && npm run dev -- -p 3082"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4015
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3082
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "4212:4212"
+      - "3082:3082"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -907,16 +908,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-hrms-dev
-    command: sh -c "cd hrms && npm install && npm run dev -- -p 4213"
+    command: sh -c "cd hrms && npm install && npm run dev -- -p 3084"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4020
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3084
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "4213:4213"
+      - "3084:3084"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -932,16 +933,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-vouchers-dev
-    command: sh -c "cd vouchers && npm install && npm run dev -- -p 4218"
+    command: sh -c "cd vouchers && npm install && npm run dev -- -p 3086"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4025
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3086
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "4218:4218"
+      - "3086:3086"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -957,16 +958,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-fbms-dev
-    command: sh -c "npm install && cd packages/theme && npm run build && cd ../../fbms && npm run dev -- -p 5005"
+    command: sh -c "npm install && cd packages/theme && npm run build && cd ../../fbms && npm run dev -- -p 3088"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4030
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3088
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5005:5005"
+      - "3088:3088"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -982,16 +983,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-crm-dev
-    command: sh -c "cd crm && npm install && npm run dev -- -p 5002"
+    command: sh -c "cd crm && npm install && npm run dev -- -p 3090"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4035
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3090
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5002:5002"
+      - "3090:3090"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -1007,16 +1008,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-billing-dev
-    command: sh -c "cd billing && npm install && npm run dev -- -p 5003"
+    command: sh -c "cd billing && npm install && npm run dev -- -p 3092"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4040
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3092
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5003:5003"
+      - "3092:3092"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -1032,16 +1033,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-analytics-dev
-    command: sh -c "cd analytics && npm install && npm run dev -- -p 5004"
+    command: sh -c "cd analytics && npm install && npm run dev -- -p 3094"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4045
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3094
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5004:5004"
+      - "3094:3094"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -1057,16 +1058,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-compliance-dev
-    command: sh -c "cd compliance && npm install && npm run dev -- -p 5007"
+    command: sh -c "cd compliance && npm install && npm run dev -- -p 3096"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4050
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3096
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5007:5007"
+      - "3096:3096"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -1082,16 +1083,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-ems-dev
-    command: sh -c "cd ems && npm install && npm run dev -- -p 5008"
+    command: sh -c "cd ems && npm install && npm run dev -- -p 3098"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4055
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3098
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5008:5008"
+      - "3098:3098"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -1107,16 +1108,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-inventory-dev
-    command: sh -c "cd inventory && npm install && npm run dev -- -p 5009"
+    command: sh -c "cd inventory && npm install && npm run dev -- -p 3100"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4060
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3100
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5009:5009"
+      - "3100:3100"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -1132,16 +1133,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-scm-dev
-    command: sh -c "cd scm && npm install && npm run dev -- -p 5010"
+    command: sh -c "cd scm && npm install && npm run dev -- -p 3102"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4065
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3102
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5010:5010"
+      - "3102:3102"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -1157,16 +1158,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-support-dev
-    command: sh -c "cd support && npm install && npm run dev -- -p 5011"
+    command: sh -c "cd support && npm install && npm run dev -- -p 3104"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4070
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3104
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "5011:5011"
+      - "3104:3104"
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -1182,16 +1183,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-admin-dev
-    command: sh -c "cd admin && npm install && npm run dev -- -p 4205"
+    command: sh -c "cd admin && npm install && npm run dev -- -p 3078"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
-      PORT: 4075
-      NEXT_PUBLIC_GATEWAY_URL: http://localhost:5000
-      NEXT_PUBLIC_MARKETING_URL: http://localhost:4200
-      NEXT_PUBLIC_CONSOLE_URL: http://localhost:4201
+      PORT: 3078
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
+      NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
+      NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
     ports:
-      - "4205:4205"
+      - "3078:3078"
     depends_on:
       - api-gateway
       - frontend-marketing

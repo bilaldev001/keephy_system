@@ -336,11 +336,11 @@ async function healthCheck() {
   log.section('Performing Health Checks');
 
   const checks = [
-    { name: 'API Gateway', url: 'http://localhost:4000' },
-    { name: 'Identity Service', url: 'http://localhost:4001' },
-    { name: 'Access Service', url: 'http://localhost:4002' },
-    { name: 'Admin Service', url: 'http://localhost:4028' },
-    { name: 'Admin Frontend', url: 'http://localhost:4205' },
+    { name: 'API Gateway', url: 'http://localhost:3010' },
+    { name: 'Identity Service', url: 'http://localhost:3012' },
+    { name: 'Access Service', url: 'http://localhost:3014' },
+    { name: 'Admin Service', url: 'http://localhost:3062' },
+    { name: 'Admin Frontend', url: 'http://localhost:3078' },
   ];
 
   for (const check of checks) {
@@ -422,7 +422,7 @@ async function main() {
     log.section('System Ready!');
     log.success('All services are running');
     log.info('\nKey URLs:');
-    log.info('  API Gateway:     http://localhost:4000');
+    log.info('  API Gateway:     http://localhost:3010');
     log.info('  Admin Frontend:  http://localhost:4205');
     log.info('\nPress Ctrl+C to stop all services');
 

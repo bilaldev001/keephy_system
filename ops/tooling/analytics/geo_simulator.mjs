@@ -8,7 +8,7 @@
 
 import { randomUUID } from 'crypto';
 
-const gatewayUrl = process.env.GATEWAY_URL ?? 'http://localhost:4000';
+const gatewayUrl = process.env.GATEWAY_URL ?? 'http://localhost:3010';
 
 function parseArgs() {
   const args = process.argv.slice(2);

@@ -6,13 +6,13 @@
  *   node ops/tooling/seed-demo-data.mjs
  *
  * Environment variables:
- *   SEED_GATEWAY_URL - defaults to http://localhost:4000
+ *   SEED_GATEWAY_URL - defaults to http://localhost:3010
  *   SEED_HRMS_URL    - defaults to SEED_GATEWAY_URL
  *   SEED_TENANT_ID   - defaults to demo tenant
  *   SEED_BEARER_TOKEN - defaults to "seed-token"
  */
 
-const gatewayUrl = process.env.SEED_GATEWAY_URL ?? 'http://localhost:4000';
+const gatewayUrl = process.env.SEED_GATEWAY_URL ?? 'http://localhost:3010';
 const hrmsUrl = process.env.SEED_HRMS_URL ?? gatewayUrl;
 const demoTenantId = process.env.SEED_TENANT_ID ?? '11111111-2222-3333-4444-555555555555';
 const seedBearerToken = process.env.SEED_BEARER_TOKEN ?? 'seed-token';

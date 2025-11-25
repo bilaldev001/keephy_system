@@ -10,7 +10,7 @@ node ops/tooling/seed-demo-data.mjs
 
 Environment variables:
 
-- `SEED_GATEWAY_URL` (default `http://localhost:4000`)
+- `SEED_GATEWAY_URL` (default `http://localhost:3010`)
 - `SEED_HRMS_URL` (default `SEED_GATEWAY_URL`)
 
 Each helper handles its own connectivity errors so the script can keep running even if one service is offline.

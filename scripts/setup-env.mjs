@@ -99,37 +99,37 @@ async function createEnvFile(serviceName) {
   // Add service-specific environment variables
   if (serviceName === 'api-gateway') {
     envContent += `\n# Service URLs\n`;
-    envContent += `IDENTITY_SERVICE_URL=http://localhost:4001\n`;
-    envContent += `ACCESS_SERVICE_URL=http://localhost:4002\n`;
-    envContent += `ADMIN_SERVICE_URL=http://localhost:4028\n`;
-    envContent += `MEDIA_SERVICE_URL=http://localhost:4003\n`;
-    envContent += `CONTACTS_SERVICE_URL=http://localhost:4004\n`;
-    envContent += `NOTIFICATIONS_SERVICE_URL=http://localhost:4005\n`;
-    envContent += `AUDIT_SERVICE_URL=http://localhost:4006\n`;
-    envContent += `SUBSCRIPTIONS_SERVICE_URL=http://localhost:4010\n`;
-    envContent += `ENTITLEMENTS_SERVICE_URL=http://localhost:4011\n`;
-    envContent += `BILLING_SERVICE_URL=http://localhost:4012\n`;
-    envContent += `OBSERVABILITY_SERVICE_URL=http://localhost:4013\n`;
-    envContent += `FBMS_SERVICE_URL=http://localhost:4014\n`;
-    envContent += `HRMS_SERVICE_URL=http://localhost:4015\n`;
-    envContent += `SCM_SERVICE_URL=http://localhost:4016\n`;
-    envContent += `INVENTORY_SERVICE_URL=http://localhost:4017\n`;
-    envContent += `CRM_SERVICE_URL=http://localhost:4018\n`;
-    envContent += `SUPPORT_SERVICE_URL=http://localhost:4019\n`;
-    envContent += `COMPLIANCE_SERVICE_URL=http://localhost:4020\n`;
-    envContent += `ANALYTICS_SERVICE_URL=http://localhost:4021\n`;
-    envContent += `EMS_SERVICE_URL=http://localhost:4022\n`;
-    envContent += `VOUCHER_SERVICE_URL=http://localhost:4024\n`;
-    envContent += `FORMS_SERVICE_URL=http://localhost:4025\n`;
-    envContent += `BUILDER_SERVICE_URL=http://localhost:4026\n`;
-    envContent += `ONBOARDING_SERVICE_URL=http://localhost:4027\n`;
-    envContent += `AI_SERVICE_URL=http://localhost:4029\n`;
-    envContent += `LIFECYCLE_SERVICE_URL=http://localhost:4030\n`;
-    envContent += `INTEGRATION_SERVICE_URL=http://localhost:4031\n`;
-    envContent += `FACILITIES_SERVICE_URL=http://localhost:4015\n`;
-    envContent += `MOBILE_SERVICE_URL=http://localhost:4032\n`;
-    envContent += `TENANT_SERVICE_URL=http://localhost:4033\n`;
-    envContent += `PAYROLL_SERVICE_URL=http://localhost:4016\n`;
+    envContent += `IDENTITY_SERVICE_URL=http://localhost:3012\n`;
+    envContent += `ACCESS_SERVICE_URL=http://localhost:3014\n`;
+    envContent += `ADMIN_SERVICE_URL=http://localhost:3062\n`;
+    envContent += `MEDIA_SERVICE_URL=http://localhost:3018\n`;
+    envContent += `CONTACTS_SERVICE_URL=http://localhost:3022\n`;
+    envContent += `NOTIFICATIONS_SERVICE_URL=http://localhost:3024\n`;
+    envContent += `AUDIT_SERVICE_URL=http://localhost:3026\n`;
+    envContent += `SUBSCRIPTIONS_SERVICE_URL=http://localhost:3028\n`;
+    envContent += `ENTITLEMENTS_SERVICE_URL=http://localhost:3030\n`;
+    envContent += `BILLING_SERVICE_URL=http://localhost:3032\n`;
+    envContent += `OBSERVABILITY_SERVICE_URL=http://localhost:3034\n`;
+    envContent += `FBMS_SERVICE_URL=http://localhost:3020\n`;
+    envContent += `HRMS_SERVICE_URL=http://localhost:3036\n`;
+    envContent += `SCM_SERVICE_URL=http://localhost:3038\n`;
+    envContent += `INVENTORY_SERVICE_URL=http://localhost:3042\n`;
+    envContent += `CRM_SERVICE_URL=http://localhost:3044\n`;
+    envContent += `SUPPORT_SERVICE_URL=http://localhost:3046\n`;
+    envContent += `COMPLIANCE_SERVICE_URL=http://localhost:3048\n`;
+    envContent += `ANALYTICS_SERVICE_URL=http://localhost:3050\n`;
+    envContent += `EMS_SERVICE_URL=http://localhost:3052\n`;
+    envContent += `VOUCHER_SERVICE_URL=http://localhost:3054\n`;
+    envContent += `FORMS_SERVICE_URL=http://localhost:3056\n`;
+    envContent += `BUILDER_SERVICE_URL=http://localhost:3058\n`;
+    envContent += `ONBOARDING_SERVICE_URL=http://localhost:3060\n`;
+    envContent += `AI_SERVICE_URL=http://localhost:3064\n`;
+    envContent += `LIFECYCLE_SERVICE_URL=http://localhost:3066\n`;
+    envContent += `INTEGRATION_SERVICE_URL=http://localhost:3068\n`;
+    envContent += `FACILITIES_SERVICE_URL=http://localhost:3072\n`;
+    envContent += `MOBILE_SERVICE_URL=http://localhost:3070\n`;
+    envContent += `TENANT_SERVICE_URL=http://localhost:3016\n`;
+    envContent += `PAYROLL_SERVICE_URL=http://localhost:3040\n`;
   }
 
   try {
@@ -156,7 +156,7 @@ async function main() {
   if (existsSync(frontendAdminDir)) {
     const adminEnvPath = path.join(frontendAdminDir, '.env.local');
     const adminEnvContent = `# Frontend Admin Environment Variables
-NEXT_PUBLIC_GATEWAY_URL=http://localhost:4000
+NEXT_PUBLIC_GATEWAY_URL=http://localhost:3010
 NEXT_PUBLIC_DEMO_TENANT_ID=11111111-2222-3333-4444-555555555555
 NEXT_PUBLIC_DEMO_BEARER_TOKEN=demo-admin-token
 `;

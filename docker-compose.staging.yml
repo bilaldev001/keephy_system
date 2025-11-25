@@ -33,14 +33,14 @@ services:
     working_dir: /app/backend/services/api-gateway
     environment:
       NODE_ENV: staging
-      PORT: 4000
+      PORT: 3010
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-${STAGING_DB_PASSWORD}}@postgres:5432/${POSTGRES_DB:-hrmssystem_staging}
-      IDENTITY_SERVICE_URL: http://identity-service:4001
-      ACCESS_SERVICE_URL: http://access-service:4002
-      MEDIA_SERVICE_URL: http://media-service:4003
-      TENANT_SERVICE_URL: http://tenant-service:4023
+      IDENTITY_SERVICE_URL: http://identity-service:3012
+      ACCESS_SERVICE_URL: http://access-service:3014
+      MEDIA_SERVICE_URL: http://media-service:3018
+      TENANT_SERVICE_URL: http://tenant-service:3016
     ports:
-      - "4100:4000"
+      - "4100:3010"
     depends_on:
       postgres:
         condition: service_healthy
@@ -48,7 +48,7 @@ services:
       - keephy-staging-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:3010/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -69,8 +69,8 @@ services:
       ACCESS_TOKEN_TTL: ${ACCESS_TOKEN_TTL:-900}
       REFRESH_TOKEN_TTL: ${REFRESH_TOKEN_TTL:-2592000}
       BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS:-12}
-      ACCESS_SERVICE_URL: http://access-service:4002
-      TENANT_SERVICE_URL: http://tenant-service:4023
+      ACCESS_SERVICE_URL: http://access-service:3014
+      TENANT_SERVICE_URL: http://tenant-service:3016
     ports:
       - "4101:4001"
     depends_on:
@@ -114,7 +114,7 @@ services:
       PORT: 4023
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-${STAGING_DB_PASSWORD}}@postgres:5432/${POSTGRES_DB:-hrmssystem_staging}
       ACCESS_SERVICE_URL: http://access-service:4002
-      IDENTITY_SERVICE_URL: http://identity-service:4001
+      IDENTITY_SERVICE_URL: http://identity-service:3012
     ports:
       - "4123:4023"
     depends_on:
