@@ -419,7 +419,7 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-payroll-service-dev
-    command: sh -c "cd services/payroll-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/payroll-service && npm run start:dev"
+    command: sh -c "cd services/payroll-service && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && cd ../.. && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && npm install --legacy-peer-deps && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/payroll-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
@@ -441,7 +441,7 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-inventory-service-dev
-    command: sh -c "cd services/inventory-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/inventory-service && npm run start:dev"
+    command: sh -c "cd services/inventory-service && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && cd ../.. && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && npm install --legacy-peer-deps && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/inventory-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
@@ -617,7 +617,7 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-builder-service-dev
-    command: sh -c "cd services/builder-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/builder-service && npm run start:dev"
+    command: sh -c "cd services/builder-service && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && cd ../.. && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && npm install --legacy-peer-deps && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/builder-service && npm run start:dev"
     working_dir: /app/backend
     env_file:
       - .env.backend
@@ -737,7 +737,7 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-integration-service-dev
-    command: sh -c "cd services/integration-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/integration-service && npm run start:dev"
+    command: sh -c "cd services/integration-service && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && cd ../.. && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && npm install --legacy-peer-deps && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/integration-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
@@ -781,7 +781,7 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: keephy-facilities-service-dev
-    command: sh -c "cd services/facilities-service && npm install --legacy-peer-deps && cd ../.. && rm -rf node_modules/bcrypt 2>/dev/null || true && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/facilities-service && npm run start:dev"
+    command: sh -c "cd services/facilities-service && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && cd ../.. && rm -rf node_modules/bcrypt node_modules/.bcryptjs-* 2>/dev/null || true && npm install --legacy-peer-deps && npm uninstall bcrypt 2>/dev/null || true && npm install bcryptjs @types/bcryptjs --legacy-peer-deps && cd services/facilities-service && npm run start:dev"
     working_dir: /app/backend
     environment:
       NODE_ENV: development
@@ -806,7 +806,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-marketing-dev
-    command: sh -c "cd marketing && npm install && npm run dev -- -p 3074"
+    command: sh -c "cd marketing && npm install && npm run dev -- -p 3074 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -856,7 +856,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-builder-dev
-    command: sh -c "cd builder && npm install && npm run dev -- -p 3080"
+    command: sh -c "cd builder && npm install && npm run dev -- -p 3080 -H 0.0.0.0"
     working_dir: /app/frontend
     env_file:
       - .env.frontend
@@ -883,7 +883,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-forms-dev
-    command: sh -c "cd forms && npm install && npm run dev -- -p 3082"
+    command: sh -c "cd forms && npm install && npm run dev -- -p 3082 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -908,7 +908,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-hrms-dev
-    command: sh -c "cd hrms && npm install && npm run dev -- -p 3084"
+    command: sh -c "cd hrms && npm install && npm run dev -- -p 3084 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -933,7 +933,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-vouchers-dev
-    command: sh -c "cd vouchers && npm install && npm run dev -- -p 3086"
+    command: sh -c "cd vouchers && npm install && npm run dev -- -p 3086 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -958,16 +958,25 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-fbms-dev
-    command: sh -c "npm install && cd packages/theme && npm run build && cd ../../fbms && npm run dev -- -p 3088"
+    command: sh -c "cd fbms && npm install --legacy-peer-deps && exec npm run dev -- -p 3088 -H 0.0.0.0"
     working_dir: /app/frontend
+    stdin_open: true
+    tty: true
     environment:
       NODE_ENV: development
       PORT: 3088
       NEXT_PUBLIC_GATEWAY_URL: http://localhost:3010
       NEXT_PUBLIC_MARKETING_URL: http://localhost:3074
       NEXT_PUBLIC_CONSOLE_URL: http://localhost:3076
+      HOSTNAME: 0.0.0.0
     ports:
       - "3088:3088"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3088/ || wget --quiet --tries=1 --spider http://localhost:3088/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     depends_on:
       - api-gateway
       - frontend-marketing
@@ -983,7 +992,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-crm-dev
-    command: sh -c "cd crm && npm install && npm run dev -- -p 3090"
+    command: sh -c "cd crm && npm install && npm run dev -- -p 3090 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1008,7 +1017,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-billing-dev
-    command: sh -c "cd billing && npm install && npm run dev -- -p 3092"
+    command: sh -c "cd billing && npm install && npm run dev -- -p 3092 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1033,7 +1042,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-analytics-dev
-    command: sh -c "cd analytics && npm install && npm run dev -- -p 3094"
+    command: sh -c "cd analytics && npm install && npm run dev -- -p 3094 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1058,7 +1067,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-compliance-dev
-    command: sh -c "cd compliance && npm install && npm run dev -- -p 3096"
+    command: sh -c "cd compliance && npm install --legacy-peer-deps && npm run dev -- -p 3096 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1083,7 +1092,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-ems-dev
-    command: sh -c "cd ems && npm install && npm run dev -- -p 3098"
+    command: sh -c "cd ems && npm install && npm run dev -- -p 3098 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1108,7 +1117,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-inventory-dev
-    command: sh -c "cd inventory && npm install && npm run dev -- -p 3100"
+    command: sh -c "cd inventory && npm install && npm run dev -- -p 3100 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1133,7 +1142,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-scm-dev
-    command: sh -c "cd scm && npm install && npm run dev -- -p 3102"
+    command: sh -c "cd scm && npm install --legacy-peer-deps && npm install styled-jsx --save && npm run dev -- -p 3102 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1158,7 +1167,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-support-dev
-    command: sh -c "cd support && npm install && npm run dev -- -p 3104"
+    command: sh -c "cd support && npm install --legacy-peer-deps && npm run dev -- -p 3104 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1183,7 +1192,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: keephy-frontend-admin-dev
-    command: sh -c "cd admin && npm install && npm run dev -- -p 3078"
+    command: sh -c "cd admin && npm install && npm run dev -- -p 3078 -H 0.0.0.0"
     working_dir: /app/frontend
     environment:
       NODE_ENV: development
@@ -1201,6 +1210,32 @@ services:
     volumes:
       - ./frontend:/app/frontend
       - admin-dev-node-modules:/app/frontend/admin/node_modules
+      - frontend-packages-dev-node-modules:/app/frontend/packages/node_modules
+
+  frontend-mobile:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: keephy-frontend-mobile-dev
+    command: sh -c "cd mobile && npm install --legacy-peer-deps && npm install @expo/cli --save-dev && npx expo start --host tunnel"
+    working_dir: /app/frontend
+    environment:
+      NODE_ENV: development
+      EXPO_PUBLIC_GATEWAY_URL: http://localhost:3010
+      EXPO_PUBLIC_MARKETING_URL: http://localhost:3074
+      EXPO_PUBLIC_CONSOLE_URL: http://localhost:3076
+    ports:
+      - "3106:19000"  # Expo default port
+      - "3107:19001"  # Expo dev tools
+      - "3108:19002"  # Expo tunnel
+    depends_on:
+      - api-gateway
+      - frontend-marketing
+    networks:
+      - keephy-dev-network
+    volumes:
+      - ./frontend:/app/frontend
+      - mobile-dev-node-modules:/app/frontend/mobile/node_modules
       - frontend-packages-dev-node-modules:/app/frontend/packages/node_modules
 
 networks:
@@ -1260,5 +1295,6 @@ volumes:
   scm-dev-node-modules:
   support-dev-node-modules:
   admin-dev-node-modules:
+  mobile-dev-node-modules:
   frontend-packages-dev-node-modules:
 
