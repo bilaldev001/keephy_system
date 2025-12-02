@@ -1416,6 +1416,124 @@ def test_fbms_dashboard(driver):
         log(f"FBMS dashboard test failed: {e}", "ERROR")
         return False
 
+def test_tenant_id_verification(driver):
+    """Test that tenantId is set in session response after onboarding"""
+    try:
+        # Navigate to console dashboard (requires auth)
+        driver.get("http://localhost:3076/")
+        time.sleep(5)
+        
+        # Check if we need to login
+        if "/login" in driver.current_url or "login" in driver.current_url.lower():
+            log("Need to login first for tenantId verification", "INFO")
+            # Try to login with a test user
+            test_email = f"test_{random.randint(1000, 9999)}@example.com"
+            test_password = "Test123!@#"
+            
+            # Try signup first
+            try:
+                test_signup(driver, test_email, test_password)
+                time.sleep(3)
+            except:
+                pass
+            
+            # Then login
+            try:
+                test_login(driver, test_email, test_password)
+                time.sleep(3)
+            except:
+                log("Could not login, skipping tenantId verification", "WARNING")
+                return False
+        
+        # Navigate to dashboard
+        driver.get("http://localhost:3076/")
+        time.sleep(5)
+        
+        # Use JavaScript to fetch session and check tenantId
+        try:
+            # Get auth token from localStorage or cookies
+            token = driver.execute_script("""
+                return localStorage.getItem('keephy-token') || 
+                       localStorage.getItem('keephy_session') ||
+                       document.cookie.split(';').find(c => c.trim().startsWith('keephy_session='))?.split('=')[1] ||
+                       null;
+            """)
+            
+            if not token:
+                log("No auth token found, cannot verify tenantId", "WARNING")
+                return False
+            
+            log(f"Found auth token, fetching session...", "INFO")
+            
+            # Use a simpler approach - inject script that stores result in window
+            driver.execute_script("""
+                var token = arguments[0];
+                window.__sessionResult = null;
+                window.__sessionError = null;
+                
+                fetch('http://localhost:3010/auth/session', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    window.__sessionResult = {
+                        tenantId: data.tenantId || data.user?.metadata?.tenantId || null,
+                        hasTenantId: !!(data.tenantId || data.user?.metadata?.tenantId),
+                        userId: data.user?.id || null,
+                        email: data.user?.email || null,
+                        organizationId: data.organizationId || null
+                    };
+                })
+                .catch(err => {
+                    window.__sessionError = err.toString();
+                });
+            """, token)
+            
+            # Wait for fetch to complete
+            time.sleep(3)
+            
+            # Get the result
+            result = driver.execute_script("""
+                if (window.__sessionError) {
+                    return { error: window.__sessionError };
+                }
+                if (window.__sessionResult) {
+                    return window.__sessionResult;
+                }
+                return { error: 'No result found' };
+            """)
+            
+            if result and 'error' in result:
+                log(f"Error fetching session: {result['error']}", "ERROR")
+                return False
+            
+            if result and result.get('hasTenantId'):
+                tenant_id = result.get('tenantId')
+                log(f"✅ tenantId found in session: {tenant_id}", "SUCCESS")
+                log(f"   User ID: {result.get('userId')}", "INFO")
+                log(f"   Email: {result.get('email')}", "INFO")
+                log(f"   Organization ID: {result.get('organizationId')}", "INFO")
+                return True
+            else:
+                log(f"❌ tenantId is empty or not found in session", "ERROR")
+                log(f"   Session result: {result}", "ERROR")
+                return False
+                
+        except Exception as e:
+            log(f"Error checking tenantId: {e}", "ERROR")
+            import traceback
+            log(traceback.format_exc(), "ERROR")
+            return False
+            
+    except Exception as e:
+        log(f"TenantId verification test failed: {e}", "ERROR")
+        import traceback
+        log(traceback.format_exc(), "ERROR")
+        return False
+
 def main():
     """Main test execution"""
     results = TestResults()
@@ -1545,6 +1663,13 @@ def main():
         log("="*80)
         
         test_step(results, "FBMS Dashboard", test_fbms_dashboard, driver)
+        
+        # TenantId Verification Test
+        log("="*80)
+        log("TENANT ID VERIFICATION TEST")
+        log("="*80)
+        
+        test_step(results, "Verify TenantId in Session", test_tenant_id_verification, driver)
         
     except Exception as e:
         log(f"Test execution error: {e}", "ERROR")
