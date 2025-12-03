@@ -694,15 +694,20 @@ def test_onboarding_brand(driver, brand_name):
 def test_onboarding_business(driver, business_name):
     """Test business creation in onboarding"""
     try:
-        time.sleep(3)
+        time.sleep(5)  # Wait longer for page to load
         
-        # Try multiple selectors for business name input
+        # Try multiple selectors for business name input - more comprehensive
         business_input = None
         business_selectors = [
+            (By.ID, "name"),
+            (By.NAME, "name"),
+            (By.CSS_SELECTOR, "input[name='name']"),
+            (By.CSS_SELECTOR, "input[id='name']"),
             (By.CSS_SELECTOR, "input[placeholder*='business' i]"),
             (By.CSS_SELECTOR, "input[placeholder*='name' i]"),
-            (By.NAME, "name"),
-            (By.ID, "name"),
+            (By.XPATH, "//input[@type='text' and (@name='name' or @id='name')]"),
+            (By.XPATH, "//label[contains(text(), 'Name')]/following-sibling::input"),
+            (By.XPATH, "//label[contains(text(), 'Business')]/following-sibling::input"),
             (By.CSS_SELECTOR, "input[type='text']"),
         ]
         
@@ -711,25 +716,39 @@ def test_onboarding_business(driver, business_name):
                 elements = driver.find_elements(selector_type, selector_value)
                 for elem in elements:
                     if elem.is_displayed() and elem.is_enabled():
-                        business_input = elem
-                        break
+                        # Check if it's not a hidden or disabled field
+                        if elem.size['width'] > 0 and elem.size['height'] > 0:
+                            business_input = elem
+                            log(f"Found business input using selector: {selector_value}", "INFO")
+                            break
                 if business_input:
                     break
-            except:
+            except Exception as e:
+                log(f"Selector {selector_value} failed: {e}", "WARNING")
                 continue
         
         if business_input:
-            business_input.click()
-            business_input.clear()
-            business_input.send_keys(business_name)
+            # Scroll to element and wait
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", business_input)
             time.sleep(1)
+            
+            # Click and enter text
+            business_input.click()
+            time.sleep(0.5)
+            business_input.clear()
+            time.sleep(0.5)
+            business_input.send_keys(business_name)
+            time.sleep(2)
             
             # Find and click next/continue button
             next_btn = None
             next_selectors = [
+                (By.XPATH, "//button[@type='submit' and (contains(., 'Next') or contains(., 'Continue') or contains(., 'Save'))]"),
                 (By.CSS_SELECTOR, "button[type='submit']"),
                 (By.XPATH, "//button[@type='submit']"),
-                (By.XPATH, "//button[contains(., 'Next') or contains(., 'Continue') or contains(., 'Save')]"),
+                (By.XPATH, "//button[contains(., 'Next')]"),
+                (By.XPATH, "//button[contains(., 'Continue')]"),
+                (By.XPATH, "//button[contains(., 'Save')]"),
             ]
             
             for selector_type, selector_value in next_selectors:
@@ -737,22 +756,33 @@ def test_onboarding_business(driver, business_name):
                     elements = driver.find_elements(selector_type, selector_value)
                     for elem in elements:
                         if elem.is_displayed() and elem.is_enabled():
-                            next_btn = elem
-                            break
+                            if elem.size['width'] > 0 and elem.size['height'] > 0:
+                                next_btn = elem
+                                log(f"Found submit button using selector: {selector_value}", "INFO")
+                                break
                     if next_btn:
                         break
-                except:
+                except Exception as e:
+                    log(f"Button selector {selector_value} failed: {e}", "WARNING")
                     continue
             
             if next_btn:
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", next_btn)
                 time.sleep(1)
                 next_btn.click()
-                time.sleep(5)
+                time.sleep(6)  # Wait longer for next page
+                log(f"Business '{business_name}' created successfully", "SUCCESS")
                 return True
-        return False
+            else:
+                log("Could not find submit button", "ERROR")
+                return False
+        else:
+            log("Could not find business name input field", "ERROR")
+            return False
     except Exception as e:
         log(f"Business creation failed: {e}", "ERROR")
+        import traceback
+        log(traceback.format_exc(), "ERROR")
         return False
 
 def test_onboarding_franchise(driver, franchise_name):
@@ -1604,9 +1634,32 @@ def main():
         test_step(results, "Coupons List", test_page_accessibility, driver, "http://localhost:3076/coupons", "Coupons")
         test_step(results, "Coupons Create", test_page_accessibility, driver, "http://localhost:3076/coupons/create", "Create Coupon")
         
-        # Test Forms (Forms app - always test, don't skip)
-        test_step(results, "Forms List", test_page_accessibility, driver, "http://localhost:3082/", "Forms")
-        test_step(results, "Forms Create", test_page_accessibility, driver, "http://localhost:3082/create", "Create Form")
+        # Test Forms (FBMS app - port 3088, requires authentication)
+        # Navigate to forms and handle authentication
+        log("Testing Forms functionality (FBMS app)...", "INFO")
+        driver.get("http://localhost:3088/forms")
+        time.sleep(5)
+        
+        # Check if redirected to login
+        if "/login" in driver.current_url:
+            log("Forms requires authentication - attempting login...", "INFO")
+            # Try to login with test credentials
+            try:
+                email_input = driver.find_element(By.CSS_SELECTOR, "input[type='email'], input[name='email']")
+                password_input = driver.find_element(By.CSS_SELECTOR, "input[type='password'], input[name='password']")
+                email_input.send_keys(test_email)
+                password_input.send_keys("Test123!@#")
+                submit_btn = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+                submit_btn.click()
+                time.sleep(5)
+                # Try to navigate to forms again
+                driver.get("http://localhost:3088/forms")
+                time.sleep(5)
+            except Exception as e:
+                log(f"Login for forms failed: {e}", "WARNING")
+        
+        test_step(results, "Forms List", test_page_accessibility, driver, "http://localhost:3088/forms", "Forms")
+        test_step(results, "Forms Create", test_page_accessibility, driver, "http://localhost:3088/forms/create", "Create Form")
         
         # Test Vouchers (Vouchers app - always test)
         test_step(results, "Vouchers Manage", test_page_accessibility, driver, "http://localhost:3086/manage", "Vouchers")
