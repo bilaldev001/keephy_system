@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Satisfaction Survey - LIVE DEMO</title>
+    <style>
+        body { font-family: Arial; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        h1 { color: #2d3748; margin-bottom: 10px; }
+        .info { background: #ebf8ff; border-left: 4px solid #4299e1; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .question { margin: 25px 0; padding: 20px; background: #f7fafc; border-radius: 8px; }
+        label { display: block; font-weight: 600; margin-bottom: 10px; color: #2d3748; }
+        input, textarea, select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; }
+        textarea { min-height: 100px; }
+        .rating-buttons { display: flex; gap: 10px; }
+        .rating-btn { padding: 12px 20px; border: 2px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; }
+        .rating-btn.selected { background: #4299e1; color: white; border-color: #4299e1; }
+        .submit-btn { width: 100%; padding: 16px; background: #4299e1; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+        .submit-btn:hover { background: #3182ce; }
+        .alert { padding: 15px; border-radius: 6px; margin: 15px 0; }
+        .alert-error { background: #fed7d7; color: #c53030; }
+        .alert-success { background: #c6f6d5; color: #276749; }
+        .success { text-align: center; padding: 40px; }
+        .success-icon { font-size: 64px; }
+        .required { color: #e53e3e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="form">
+            <h1>🎯 Customer Satisfaction Survey</h1>
+            <p style="color: #718096; margin-bottom: 20px;">Help us improve our services</p>
+            
+            <div class="info">
+                <strong>✅ Form Status:</strong> LIVE & WORKING<br>
+                <strong>📝 Code:</strong> SURVEY2024<br>
+                <strong>🔗 Short URL:</strong> Ov8eFZfz<br>
+                <strong>📧 Emails:</strong> 3 recipients configured<br>
+                <strong>⏱️ Rate Limit:</strong> 1 per day per IP
+            </div>
+
+            <div id="alert"></div>
+
+            <form id="surveyForm">
+                <div class="question">
+                    <label>Name (Optional)</label>
+                    <input type="text" name="name" placeholder="Your name">
+                </div>
+
+                <div class="question">
+                    <label>Email (Optional)</label>
+                    <input type="email" name="email" placeholder="your.email@example.com">
+                </div>
+
+                <div class="question">
+                    <label>Phone (Optional)</label>
+                    <input type="tel" name="phone" placeholder="+1 (555) 000-0000">
+                </div>
+
+                <div class="question">
+                    <label>1. How satisfied are you with our service? <span class="required">*</span></label>
+                    <div class="rating-buttons">
+                        <button type="button" class="rating-btn" onclick="selectRating(1)">1</button>
+                        <button type="button" class="rating-btn" onclick="selectRating(2)">2</button>
+                        <button type="button" class="rating-btn" onclick="selectRating(3)">3</button>
+                        <button type="button" class="rating-btn" onclick="selectRating(4)">4</button>
+                        <button type="button" class="rating-btn" onclick="selectRating(5)">5</button>
+                    </div>
+                    <input type="hidden" id="rating" name="rating" required>
+                </div>
+
+                <div class="question">
+                    <label>2. What did you like most?</label>
+                    <textarea name="feedback" placeholder="Your feedback..."></textarea>
+                </div>
+
+                <div class="question">
+                    <label>3. Would you recommend us to others? <span class="required">*</span></label>
+                    <select name="recommend" required>
+                        <option value="">Select an option</option>
+                        <option value="Yes, definitely">Yes, definitely</option>
+                        <option value="Maybe">Maybe</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Response</button>
+            </form>
+        </div>
+
+        <div id="success" style="display:none;">
+            <div class="success">
+                <div class="success-icon">✅</div>
+                <h2>Thank You!</h2>
+                <p>Your response has been submitted successfully.</p>
+                <p style="margin-top: 10px; color: #718096;">Email notifications sent to 3 recipients!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedRating = null;
+
+        function selectRating(value) {
+            selectedRating = value;
+            document.getElementById('rating').value = value;
+            document.querySelectorAll('.rating-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+        }
+
+        document.getElementById('surveyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!selectedRating) {
+                showAlert('Please select a satisfaction rating', 'error');
+                return;
+            }
+
+            const formData = new FormData(e.target);
+            const data = {
+                answers: [
+                    { questionLabel: "How satisfied are you with our service?", answer: selectedRating.toString(), type: "rating" },
+                    { questionLabel: "What did you like most?", answer: formData.get('feedback') || '', type: "long-text" },
+                    { questionLabel: "Would you recommend us to others?", answer: formData.get('recommend'), type: "multiple-choice" }
+                ],
+                name: formData.get('name') || '',
+                email: formData.get('email') || '',
+                phone: formData.get('phone') || '',
+                deviceId: 'web-demo'
+            };
+
+            try {
+                const response = await fetch('http://localhost:3020/public/forms/SURVEY2024/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.status === 429) {
+                    const error = await response.json();
+                    showAlert('⏱️ ' + error.message, 'error');
+                    return;
+                }
+
+                if (!response.ok) throw new Error('Failed');
+
+                document.getElementById('form').style.display = 'none';
+                document.getElementById('success').style.display = 'block';
+            } catch (error) {
+                showAlert('❌ Failed to submit. Make sure API is running on localhost:3020', 'error');
+            }
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = 'alert alert-' + type;
+            alert.textContent = message;
+            setTimeout(() => alert.textContent = '', 5000);
+        }
+    </script>
+</body>
+</html>
