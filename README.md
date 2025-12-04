@@ -1,529 +1,257 @@
-# Keephy Platform - Development & Testing Guide
+# Keephy Platform - Enterprise Management System
 
-This guide provides step-by-step instructions for running the Keephy platform services and testing legacy functionality using Selenium.
-
-## 📋 Table of Contents
-
-- [Prerequisites](#prerequisites)
-- [Quick Start](#quick-start)
-- [Step-by-Step Service Setup](#step-by-step-service-setup)
-- [Testing Legacy Functionality](#testing-legacy-functionality)
-- [Manual Service Management](#manual-service-management)
-- [Troubleshooting](#troubleshooting)
+> **Modern, scalable, multi-tenant platform for managing organizations, HR, CRM, and more.**
 
 ---
 
-## Prerequisites
+## 🚀 Quick Start (5 Minutes)
 
-Before starting, ensure you have the following installed:
+```bash
+# 1. Install dependencies
+npm install --legacy-peer-deps
 
-### Required Software
+# 2. Setup database (automated)
+./setup-database.sh
 
-1. **Docker & Docker Compose**
-   ```bash
-   # Check if installed
-   docker --version
-   docker compose version
-   
-   # If not installed, install Docker Desktop:
-   # macOS: https://docs.docker.com/desktop/install/mac-install/
-   # Linux: https://docs.docker.com/engine/install/
-   ```
+# 3. Start all services
+npm run pm2:start:all
 
-2. **Python 3.8+**
-   ```bash
-   # Check if installed
-   python3 --version
-   
-   # If not installed:
-   # macOS: brew install python3
-   # Linux: sudo apt-get install python3 python3-pip
-   ```
+# 4. Access the platform
+open http://localhost:3076
+```
 
-3. **Python Dependencies**
-   ```bash
-   # Install Selenium and required packages
-   pip3 install selenium
-   ```
-
-4. **Google Chrome & ChromeDriver**
-   ```bash
-   # Install Chrome browser (if not already installed)
-   # macOS: brew install --cask google-chrome
-   # Linux: sudo apt-get install google-chrome-stable
-   
-   # ChromeDriver is usually auto-managed by Selenium
-   # If needed manually: brew install chromedriver (macOS)
-   ```
-
-### Environment Setup
-
-1. **Clone/Navigate to the repository**
-   ```bash
-   cd /Users/mac/Desktop/My\ Data/My\ Live/hrms-develop-postgres
-   ```
-
-2. **Verify Docker Compose file exists**
-   ```bash
-   ls docker-compose.dev.yml
-   ```
+**That's it!** The platform is ready to use. 🎉
 
 ---
 
-## Quick Start
+## 📚 Documentation
 
-The fastest way to start all services and run tests:
-
-```bash
-# Make the script executable (first time only)
-chmod +x run-system-tests.sh
-
-# Run everything (starts services + runs tests)
-./run-system-tests.sh
-```
-
-This script will:
-1. Stop any existing services
-2. Start required backend and frontend services
-3. Wait for services to be ready
-4. Run comprehensive Selenium tests with dummy data
-5. Display test results
+- **[QUICK_START.md](QUICK_START.md)** - Get running in 4 steps
+- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Complete setup guide with troubleshooting
+- **[ENTITY_MANAGEMENT_GUIDE.md](ENTITY_MANAGEMENT_GUIDE.md)** - Managing organizations, brands, businesses, franchises
+- **[ONBOARDING_IMPLEMENTATION.md](ONBOARDING_IMPLEMENTATION.md)** - Technical implementation details
+- **[PM2_GUIDE.md](PM2_GUIDE.md)** - Process management with PM2
+- **[DATABASE_FIX_REQUIRED.md](DATABASE_FIX_REQUIRED.md)** - Manual database fixes (if automated setup fails)
 
 ---
 
-## Step-by-Step Service Setup
+## 🏗️ Architecture
 
-If you prefer to start services manually or need more control:
+### Backend Microservices (Node.js + NestJS)
 
-### Step 1: Start Database
+- **API Gateway** (3010) - Routes requests to services
+- **Identity Service** (3012) - Authentication & users
+- **Tenant Service** (3016) - Organizations, brands, businesses, franchises
+- **Contacts Service** (3022) - Contact management
+- **HRMS Service** (3036) - HR & employee management
+- **Media Service** (3018) - File uploads
+- **+ 20 more services...**
 
-```bash
-# Start PostgreSQL database
-docker compose -f docker-compose.dev.yml up -d postgres
+### Frontend Applications (Next.js + React)
 
-# Wait for database to be ready (15-20 seconds)
-sleep 15
-
-# Verify database is running
-docker ps | grep postgres
-```
-
-### Step 2: Start API Gateway
-
-```bash
-# Start API Gateway (entry point for all backend services)
-docker compose -f docker-compose.dev.yml up -d api-gateway
-
-# Wait a few seconds
-sleep 10
-
-# Verify API Gateway is accessible
-curl http://localhost:3010/health || echo "API Gateway starting..."
-```
-
-### Step 3: Start Core Backend Services
-
-```bash
-# Start authentication services (required for login/signup)
-docker compose -f docker-compose.dev.yml up -d identity-service access-service
-
-# Wait for services to initialize
-sleep 15
-```
-
-### Step 4: Start Frontend Applications
-
-```bash
-# Start all frontend applications
-docker compose -f docker-compose.dev.yml up -d \
-  frontend-console \
-  frontend-marketing \
-  frontend-admin \
-  frontend-forms \
-  frontend-vouchers \
-  frontend-fbms \
-  frontend-analytics \
-  frontend-hrms
-
-# Wait for Next.js compilation (2-3 minutes)
-echo "Waiting for Next.js apps to compile..."
-sleep 120
-```
-
-### Step 5: Verify Services Are Running
-
-```bash
-# Check all containers are running
-docker ps
-
-# Quick accessibility check
-curl http://localhost:3076  # Console
-curl http://localhost:3074  # Marketing
-curl http://localhost:3078  # Admin
-curl http://localhost:3082  # Forms
-curl http://localhost:3086  # Vouchers
-curl http://localhost:3088  # FBMS
-curl http://localhost:3094  # Analytics
-curl http://localhost:3084  # HRMS
-```
-
-**Expected Ports:**
-- **Console**: `http://localhost:3076`
-- **Marketing**: `http://localhost:3074`
-- **Admin**: `http://localhost:3078`
-- **Forms**: `http://localhost:3082`
-- **Vouchers**: `http://localhost:3086`
-- **FBMS**: `http://localhost:3088`
-- **Analytics**: `http://localhost:3094`
-- **HRMS**: `http://localhost:3084`
-- **API Gateway**: `http://localhost:3010`
+- **Console** (3076) - Main management interface
+- **Admin** (3078) - Admin dashboard
+- **HRMS** (3082) - HR management UI
+- **CRM** (3090) - Customer relationship UI
+- **+ 12 more apps...**
 
 ---
 
-## Testing Legacy Functionality
+## ✨ Key Features
 
-### Automated Testing with Selenium
+### Multi-Tenant Architecture
+- Organizations → Brands → Businesses → Franchises
+- Complete data isolation between tenants
+- Hierarchical permissions
 
-The comprehensive Selenium test suite verifies all legacy functionality from the old system.
+### Onboarding Flow
+- 4-step guided setup
+- Team member management (admins & managers)
+- Automatic user creation with default passwords
+- Skip optional steps (org & brand)
 
-#### Run All Tests (Recommended)
+### Entity Management
+- Full CRUD for all entities
+- Search & filter
+- Hierarchical dropdowns
+- Responsive design
 
-```bash
-# Using the unified script (starts services + runs tests)
-./run-system-tests.sh
-```
-
-#### Run Tests Only (Services Already Running)
-
-```bash
-# Run Selenium test suite directly
-python3 test-legacy-functionality.py
-```
-
-### What Gets Tested
-
-The Selenium test suite automatically tests:
-
-#### 1. **Authentication & Onboarding**
-- ✅ User Signup (creates test account with dummy data)
-- ✅ User Login
-- ✅ Organization Creation
-- ✅ Brand Creation
-- ✅ Business Creation
-- ✅ Franchise Creation
-
-#### 2. **Entity Management**
-- ✅ Organizations List
-- ✅ Brands List
-- ✅ Businesses List
-- ✅ Franchises List
-
-#### 3. **HRMS Features**
-- ✅ Staff List
-- ✅ Staff Create
-- ✅ Shifts List
-- ✅ Shifts Create
-- ✅ Schedule Templates
-
-#### 4. **Voucher & Gift Card System**
-- ✅ Gift Cards List
-- ✅ Gift Cards Create
-- ✅ Coupons List
-- ✅ Coupons Create
-
-#### 5. **Forms & Feedback**
-- ✅ Forms List
-- ✅ Forms Create
-- ✅ FBMS Dashboard
-
-#### 6. **Admin Features**
-- ✅ Admin Login
-- ✅ Admin Users
-- ✅ Admin Businesses
-- ✅ Admin Plans
-
-#### 7. **Analytics**
-- ✅ Analytics Dashboard
-
-#### 8. **Marketing Pages**
-- ✅ Marketing Home
-- ✅ Marketing Features
-- ✅ Marketing Pricing
-- ✅ Marketing About
-- ✅ Marketing Contact
-- ✅ Marketing Terms
-- ✅ Marketing Privacy
-- ✅ Marketing Cookies
-
-### Test Output
-
-After running tests, you'll see:
-
-```
-================================================================================
-TEST SUMMARY
-================================================================================
-✅ Passed: 36
-❌ Failed: 0
-⏭️  Skipped: 0
-⚠️  Errors: 0
-================================================================================
-
-✅ PASSED TESTS:
-  - User Signup
-  - User Login
-  - Organization Creation
-  - Brand Creation
-  - Business Creation
-  - Franchise Creation
-  ... (and more)
-```
-
-### Dummy Data Generation
-
-The test suite automatically generates dummy data:
-- **Random email addresses**: `test_user_<timestamp>@example.com`
-- **Random organization names**: `Test Org <timestamp>`
-- **Random brand/business/franchise names**: `Test <Entity> <timestamp>`
-
-No manual data entry required!
+### Authentication & Authorization
+- JWT-based authentication
+- Role-based access control
+- Session management
+- Password reset flow
 
 ---
 
-## Manual Service Management
+## 🛠️ Development
 
-### Start All Services
+### Starting Services
 
 ```bash
-# Start all services at once
-docker compose -f docker-compose.dev.yml up -d
+# Start all
+npm run pm2:start:all
+
+# Or individually
+npm run pm2:start:backend    # All backend services
+npm run pm2:start:frontend   # All frontend apps
 ```
 
-### Stop All Services
+### Monitoring
 
 ```bash
-# Stop all services
-docker compose -f docker-compose.dev.yml down
+# View all services
+pm2 status
+
+# View logs
+pm2 logs <service-name>
+
+# Monitor resources
+pm2 monit
 ```
 
-### View Service Logs
+### Stopping Services
 
 ```bash
-# View logs for a specific service
-docker compose -f docker-compose.dev.yml logs -f frontend-console
+# Stop all
+npm run pm2:stop:all
 
-# View logs for all services
-docker compose -f docker-compose.dev.yml logs -f
-```
-
-### Restart a Service
-
-```bash
-# Restart a specific service
-docker compose -f docker-compose.dev.yml restart frontend-console
-
-# Restart all services
-docker compose -f docker-compose.dev.yml restart
-```
-
-### Check Service Status
-
-```bash
-# List all running containers
-docker ps
-
-# Check specific service health
-docker ps | grep keephy-frontend-console-dev
+# Stop specific
+pm2 stop <service-name>
 ```
 
 ---
 
-## Troubleshooting
+## 🧪 Testing
 
-### Issue: Services Won't Start
+### Automated API Testing
 
-**Problem**: Docker containers exit immediately or fail to start.
-
-**Solutions**:
 ```bash
-# Check Docker is running
-docker ps
+# Test all CRUD APIs
+./test-entity-apis.sh
 
-# Check for port conflicts
-lsof -i :3076  # Check if port is already in use
-
-# View service logs
-docker compose -f docker-compose.dev.yml logs <service-name>
-
-# Restart Docker Desktop (macOS/Windows)
-# Or restart Docker daemon (Linux): sudo systemctl restart docker
+# This will:
+# - Register a test user
+# - Create organization, brand, business, franchise
+# - Verify all CRUD operations work
+# - Show detailed results
 ```
 
-### Issue: Frontend Apps Show "Connection Refused"
+### Manual Testing
 
-**Problem**: Frontend apps are not accessible after starting.
+1. Register: http://localhost:3076/register
+2. Complete onboarding
+3. Access entity pages:
+   - http://localhost:3076/organizations
+   - http://localhost:3076/brands
+   - http://localhost:3076/businesses
+   - http://localhost:3076/franchises
 
-**Solutions**:
+---
+
+## 🗄️ Database
+
+### Automated Setup
+
 ```bash
-# Wait longer for Next.js compilation (can take 2-5 minutes)
-sleep 300
-
-# Check if container is running
-docker ps | grep frontend-console
-
-# Check container logs for errors
-docker compose -f docker-compose.dev.yml logs frontend-console
-
-# Restart the service
-docker compose -f docker-compose.dev.yml restart frontend-console
+./setup-database.sh
 ```
 
-### Issue: Selenium Tests Fail
+This script:
+- Tests database connection
+- Adds missing columns
+- Fixes constraints
+- Verifies schema
+- Shows detailed results
 
-**Problem**: Tests fail with "Connection refused" or "Element not found".
+### Manual Setup
 
-**Solutions**:
+If automated setup fails, see [DATABASE_FIX_REQUIRED.md](DATABASE_FIX_REQUIRED.md) for manual SQL commands.
+
+---
+
+## 📦 Tech Stack
+
+**Backend:**
+- Node.js 20+
+- NestJS
+- TypeORM
+- PostgreSQL
+- PM2
+
+**Frontend:**
+- Next.js 14
+- React 18
+- TypeScript
+- TailwindCSS
+- @keephy/ui-core
+
+**Infrastructure:**
+- PM2 for process management
+- JWT for authentication
+- Axios for HTTP clients
+- Microservices architecture
+
+---
+
+## 🔐 Security
+
+- JWT tokens with refresh mechanism
+- Password hashing with bcrypt
+- CORS configured on all services
+- Multi-tenant data isolation
+- Role-based access control
+
+---
+
+## 🐛 Troubleshooting
+
+### Services Won't Start
+
 ```bash
-# 1. Verify services are running
-docker ps
+# Check status
+pm2 status
 
-# 2. Verify services are accessible
-curl http://localhost:3076  # Console
-curl http://localhost:3074  # Marketing
+# Check logs
+pm2 logs <service-name>
 
-# 3. Check Chrome/ChromeDriver
-google-chrome --version
-chromedriver --version
-
-# 4. Run tests with longer waits (edit test-legacy-functionality.py)
-# Increase time.sleep() values if needed
-
-# 5. Check test logs for specific errors
-python3 test-legacy-functionality.py 2>&1 | tee test-output.log
+# Restart
+pm2 restart all
 ```
 
-### Issue: Database Connection Errors
+### Database Errors
 
-**Problem**: Backend services can't connect to PostgreSQL.
-
-**Solutions**:
 ```bash
-# 1. Verify PostgreSQL is running
-docker ps | grep postgres
+# Run database setup
+./setup-database.sh
 
-# 2. Check database health
-docker exec keephy-postgres-dev pg_isready -U postgres
-
-# 3. Restart PostgreSQL
-docker compose -f docker-compose.dev.yml restart postgres
-
-# 4. Check database logs
-docker compose -f docker-compose.dev.yml logs postgres
+# If that fails, see DATABASE_FIX_REQUIRED.md
 ```
 
-### Issue: Port Already in Use
+### Port Conflicts
 
-**Problem**: Error: "port is already allocated" or "address already in use".
-
-**Solutions**:
 ```bash
-# Find process using the port
-lsof -i :3076  # Replace with your port
+# Kill process on port
+lsof -ti:3010 | xargs kill -9
 
-# Kill the process (replace PID with actual process ID)
-kill -9 <PID>
-
-# Or stop conflicting Docker containers
-docker ps
-docker stop <container-id>
-```
-
-### Issue: Memory Issues (Containers Killed)
-
-**Problem**: Containers exit with code 137 (killed due to memory).
-
-**Solutions**:
-```bash
-# Increase Docker memory limit in Docker Desktop settings
-# macOS: Docker Desktop > Settings > Resources > Memory (increase to 8GB+)
-
-# Or start services one at a time
-docker compose -f docker-compose.dev.yml up -d postgres
-sleep 10
-docker compose -f docker-compose.dev.yml up -d api-gateway
-# ... continue one by one
-```
-
-### Issue: Python/Selenium Errors
-
-**Problem**: `ModuleNotFoundError` or ChromeDriver issues.
-
-**Solutions**:
-```bash
-# Install Python dependencies
-pip3 install selenium
-
-# Update Selenium
-pip3 install --upgrade selenium
-
-# Install ChromeDriver manually (if auto-detection fails)
-# macOS:
-brew install chromedriver
-
-# Linux:
-sudo apt-get install chromium-chromedriver
+# Or restart all
+pm2 restart all
 ```
 
 ---
 
-## Service Architecture Overview
+## 📞 Support
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Frontend Applications                    │
-│  Console │ Marketing │ Admin │ Forms │ Vouchers │ FBMS...  │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│                      API Gateway (3010)                     │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        ▼              ▼              ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│   Identity   │ │    Access    │ │    Tenant    │
-│   Service    │ │   Service    │ │   Service    │
-└──────────────┘ └──────────────┘ └──────────────┘
-        │              │              │
-        └──────────────┼──────────────┘
-                       ▼
-              ┌──────────────┐
-              │  PostgreSQL   │
-              │   Database    │
-              └──────────────┘
-```
+- **Documentation:** See docs folder
+- **Issues:** Create GitHub issue
+- **Team:** Contact on Slack/Discord
 
 ---
 
-## Additional Resources
+## 📄 License
 
-- **Docker Compose File**: `docker-compose.dev.yml`
-- **Test Script**: `test-legacy-functionality.py`
-- **Unified Runner**: `run-system-tests.sh`
+Proprietary - Keephy Platform
 
 ---
 
-## Support
-
-If you encounter issues not covered in this guide:
-
-1. Check service logs: `docker compose -f docker-compose.dev.yml logs <service-name>`
-2. Verify all prerequisites are installed
-3. Ensure Docker has sufficient resources (memory, CPU)
-4. Review test output for specific error messages
-
----
-
-**Last Updated**: 2025-01-27
-**Platform Version**: Development
+**Built with ❤️ by the Keephy Team**
