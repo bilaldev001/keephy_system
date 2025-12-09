@@ -56,9 +56,6 @@ RUN apt-get update && apt-get install -y \
 # Copy built files
 COPY --from=builder /app/frontend ./frontend
 
-# Copy node_modules from builder stage (required for npm run start)
-COPY --from=builder /app/frontend/node_modules ./frontend/node_modules
-
 # Set working directory
 WORKDIR /app/frontend
 
